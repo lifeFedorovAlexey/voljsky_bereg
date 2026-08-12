@@ -9,9 +9,9 @@ type BlockData = Record<string, any>
 
 type Renderer = React.ComponentType<BlockData>
 
-const Section = ({ children, block }: { children: React.ReactNode; block: BlockData }) => (
+const Section = ({ children, block, className = '' }: { children: React.ReactNode; block: BlockData; className?: string }) => (
   <section
-    className={`vb-section vb-section--${block.theme || 'light'}`}
+    className={`vb-section vb-section--${block.theme || 'light'} ${className}`.trim()}
     id={block.anchor || undefined}
   >
     <div className="container">
@@ -83,7 +83,7 @@ const CardGrid: Renderer = (block) => (
 )
 
 const GalleryRenderer: Renderer = (block) => (
-  <Section block={block}>
+  <Section block={block} className="vb-section--gallery">
     <div className={`vb-gallery vb-gallery--${block.layout || 'mosaic'}`}>
       {block.images?.map((item: BlockData, index: number) => (
         <figure key={item.id || index}>
