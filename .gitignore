@@ -7,6 +7,7 @@ node_modules
 next-env.d.ts
 tsconfig.tsbuildinfo
 .vercel
+.tmp/
 
 # Payload default media upload directory
 public/media/
