@@ -45,3 +45,65 @@
   color: var(--theme-text);
   opacity: .62;
 }
+
+/* Keep collection tables readable even when a saved Payload theme and its
+   elevation tokens are restored out of sync during hydration. */
+html[data-theme='light'] .collection-list__wrap .table tbody tr {
+  background: #ffffff;
+  color: #252b27;
+}
+
+html[data-theme='light'] .collection-list__wrap .table tbody tr:nth-child(odd) {
+  background: #f3f1eb;
+}
+
+html[data-theme='dark'] .collection-list__wrap .table tbody tr {
+  background: #171c19;
+  color: #f4f1e8;
+}
+
+html[data-theme='dark'] .collection-list__wrap .table tbody tr:nth-child(odd) {
+  background: #222925;
+}
+
+html[data-theme='dark'] .collection-list__wrap .table tbody tr:hover {
+  background: #2c3731;
+}
+
+.collection-list__wrap .table tbody td,
+.collection-list__wrap .table tbody td a,
+.collection-list__wrap .table tbody td button,
+.collection-list__wrap .table tbody td span {
+  color: inherit;
+}
+
+html[data-theme='dark'] .collection-list__wrap .table thead th,
+html[data-theme='dark'] .collection-list__wrap .table thead button,
+html[data-theme='dark'] .collection-list__wrap .table thead a {
+  color: #d8ded9;
+  opacity: 1;
+}
+
+html[data-theme='dark'] .collection-list__wrap .search-filter {
+  background: #222925;
+  color: #f4f1e8;
+}
+
+html[data-theme='dark'] .collection-list__wrap .search-filter input,
+html[data-theme='dark'] .collection-list__wrap .search-filter input::placeholder {
+  color: #f4f1e8;
+}
+
+html[data-theme='dark'] .collection-list__wrap .search-filter input::placeholder {
+  opacity: .68;
+}
+
+.collection-list__header .btn:not(:disabled):not([aria-disabled='true']) {
+  background: #35634f;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.collection-list__header .btn:not(:disabled):not([aria-disabled='true']):hover {
+  background: #284e3e;
+}

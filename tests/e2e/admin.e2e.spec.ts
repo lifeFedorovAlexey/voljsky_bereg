@@ -38,4 +38,53 @@ test.describe('Admin Panel', () => {
     const editViewArtifact = page.locator('input[name="title"]')
     await expect(editViewArtifact).toBeVisible()
   })
+
+  test('keeps collection tables readable in the dark theme', async () => {
+    await page.context().addCookies([
+      { domain: 'localhost', name: 'payload-theme', path: '/', value: 'dark' },
+    ])
+
+    for (const collection of ['pages', 'media']) {
+      await page.goto(`http://localhost:3000/admin/collections/${collection}`)
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+      await expect(page.locator('table tbody tr').first()).toBeVisible()
+
+      const lowContrast = await page.locator(
+        'table tbody td, table tbody a, table thead th, .collection-list__header .btn',
+      ).evaluateAll((elements) => {
+        const parseRGB = (value: string) =>
+          value.match(/[\d.]+/g)?.slice(0, 3).map(Number) || [0, 0, 0]
+        const luminance = (value: string) => {
+          const [red, green, blue] = parseRGB(value).map((channel) => {
+            const normalized = channel / 255
+            return normalized <= 0.03928
+              ? normalized / 12.92
+              : ((normalized + 0.055) / 1.055) ** 2.4
+          })
+          return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+        }
+        const background = (element: Element) => {
+          for (let current: Element | null = element; current; current = current.parentElement) {
+            const color = getComputedStyle(current).backgroundColor
+            if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') return color
+          }
+          return 'rgb(0, 0, 0)'
+        }
+
+        return elements.flatMap((element) => {
+          const text = (element.textContent || '').trim()
+          if (!text) return []
+          const foreground = getComputedStyle(element).color
+          const foregroundLuminance = luminance(foreground)
+          const backgroundLuminance = luminance(background(element))
+          const ratio =
+            (Math.max(foregroundLuminance, backgroundLuminance) + 0.05) /
+            (Math.min(foregroundLuminance, backgroundLuminance) + 0.05)
+          return ratio < 4.5 ? [{ ratio, text }] : []
+        })
+      })
+
+      expect(lowContrast).toEqual([])
+    }
+  })
 })
