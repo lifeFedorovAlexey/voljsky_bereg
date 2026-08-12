@@ -140,6 +140,17 @@ export const Stays = block('stays', 'Варианты размещения', [
 ])
 
 export const MapPlan = block('mapPlan', 'Интерактивный генплан', [
+  {
+    name: 'bookingMap',
+    label: 'Яндекс Карта и объекты бронирования',
+    type: 'json',
+    admin: {
+      components: {
+        Field: '@/modules/booking-map/BookingMapField#BookingMapField',
+      },
+      description: 'Нарисуйте на карте дома, участки и служебные зоны. Геометрия сохраняется вместе со страницей.',
+    },
+  },
   { ...image, name: 'planImage', label: 'Изображение генплана' },
   {
     name: 'filters',
@@ -152,8 +163,11 @@ export const MapPlan = block('mapPlan', 'Интерактивный генпла
   },
   {
     name: 'objects',
-    label: 'Объекты на плане',
+    label: 'Старые маркеры на изображении (режим совместимости)',
     type: 'array',
+    admin: {
+      description: 'Используются только пока новая Яндекс Карта не настроена. Существующие данные не удаляются.',
+    },
     fields: [
       { name: 'number', label: 'Номер / название', type: 'text', required: true },
       { name: 'x', label: 'Позиция слева, %', type: 'number', min: 0, max: 100, required: true },

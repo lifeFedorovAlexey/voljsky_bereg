@@ -433,6 +433,18 @@ export interface MapPlanBlock {
   eyebrow?: string | null;
   title: string;
   description?: string | null;
+  /**
+   * Нарисуйте на карте дома, участки и служебные зоны. Геометрия сохраняется вместе со страницей.
+   */
+  bookingMap?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   planImage?: (number | null) | Media;
   filters?:
     | {
@@ -441,6 +453,9 @@ export interface MapPlanBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Используются только пока новая Яндекс Карта не настроена. Существующие данные не удаляются.
+   */
   objects?:
     | {
         number: string;
@@ -1286,6 +1301,7 @@ export interface MapPlanBlockSelect<T extends boolean = true> {
   eyebrow?: T;
   title?: T;
   description?: T;
+  bookingMap?: T;
   planImage?: T;
   filters?:
     | T

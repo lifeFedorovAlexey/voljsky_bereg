@@ -1,0 +1,113 @@
+.booking-map-field {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1rem 1.5rem;
+}
+
+.booking-map-field__setup {
+  padding: 1.25rem;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 12px;
+  background: var(--theme-elevation-50);
+}
+
+.booking-map-field__setup p { margin: .5rem 0 0; }
+
+.booking-map-field__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+}
+
+.booking-map-field__toolbar button,
+.booking-map-field__save-shape {
+  padding: .7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #35634f;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+}
+
+.booking-map-field__toolbar span { font-size: .85rem; opacity: .75; }
+
+.booking-map-field__canvas {
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 14px;
+}
+
+.booking-map-field__objects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.booking-map-field__objects button {
+  display: grid;
+  gap: .15rem;
+  min-width: 130px;
+  padding: .7rem .85rem;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: 9px;
+  background: var(--theme-elevation-50);
+  color: var(--theme-text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.booking-map-field__objects button.is-selected {
+  border-color: #4f8a70;
+  box-shadow: 0 0 0 2px #4f8a7040;
+}
+
+.booking-map-field__objects span { font-size: .75rem; opacity: .65; }
+
+.booking-map-field__form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 12px;
+  background: var(--theme-elevation-50);
+}
+
+.booking-map-field__form label { display: grid; gap: .4rem; min-width: 0; }
+.booking-map-field__form .is-wide { grid-column: 1 / -1; }
+
+.booking-map-field__form input,
+.booking-map-field__form select,
+.booking-map-field__form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: .7rem .8rem;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: 7px;
+  background: var(--theme-input-bg);
+  color: var(--theme-text);
+  font: inherit;
+}
+
+.booking-map-field__form textarea { min-height: 90px; resize: vertical; }
+.booking-map-field__form input[readonly] { opacity: .65; }
+
+.booking-map-field__delete {
+  justify-self: start;
+  padding: .7rem 1rem;
+  border: 1px solid var(--theme-error-500);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--theme-error-500);
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .booking-map-field__canvas { min-height: 380px; }
+  .booking-map-field__form { grid-template-columns: 1fr; }
+  .booking-map-field__form .is-wide { grid-column: auto; }
+}

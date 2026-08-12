@@ -4,6 +4,8 @@ import React from 'react'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { getBookingHref } from '@/modules/booking/getBookingHref'
+import { normalizeBookingMap } from '@/modules/booking-map/model'
+import { PublicBookingMap } from '@/modules/booking-map/PublicBookingMap'
 
 type BlockData = Record<string, any>
 
@@ -95,42 +97,50 @@ const GalleryRenderer: Renderer = (block) => (
   </Section>
 )
 
-const MapPlanRenderer: Renderer = (block) => (
-  <Section block={block}>
-    <div className="vb-plan-shell">
-      <aside className="vb-plan-panel">
-        <p className="vb-plan-panel__label">Подобрать дом</p>
-        <div className="vb-plan-filters">
-          {block.filters?.map((filter: BlockData, index: number) => (
-            <span className="vb-plan-filter" key={filter.id || index}>{filter.label}</span>
-          ))}
+const MapPlanRenderer: Renderer = (block) => {
+  const bookingMap = normalizeBookingMap(block.bookingMap)
+
+  return (
+    <Section block={block}>
+      {bookingMap.objects.length > 0 ? (
+        <PublicBookingMap apiKey={process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY} value={bookingMap} />
+      ) : (
+        <div className="vb-plan-shell">
+          <aside className="vb-plan-panel">
+            <p className="vb-plan-panel__label">Подобрать дом</p>
+            <div className="vb-plan-filters">
+              {block.filters?.map((filter: BlockData, index: number) => (
+                <span className="vb-plan-filter" key={filter.id || index}>{filter.label}</span>
+              ))}
+            </div>
+            <div className="vb-plan-legend">
+              <span><i className="is-available" />Свободно</span>
+              <span><i className="is-reserved" />Забронировано</span>
+              <span><i className="is-unavailable" />Недоступно</span>
+            </div>
+            <p className="vb-plan-panel__hint">Наведите на номер на плане, чтобы увидеть название и цену.</p>
+            <Link className="vb-button" href="/contacts#booking">Уточнить свободные даты</Link>
+          </aside>
+          <div className="vb-plan">
+            <Image resource={block.planImage} />
+            {block.objects?.map((item: BlockData, index: number) => (
+              <a
+                aria-label={`${item.number}${item.price ? ` — ${item.price}` : ''}`}
+                className={`vb-plan__marker vb-plan__marker--${item.status || 'available'}`}
+                href={item.url || '/contacts#booking'}
+                key={item.id || index}
+                style={{ left: `${item.x}%`, top: `${item.y}%` }}
+              >
+                <b>{item.number}</b>
+                <span>{item.description}{item.price ? <><br /><strong>{item.price}</strong></> : null}</span>
+              </a>
+            ))}
+          </div>
         </div>
-        <div className="vb-plan-legend">
-          <span><i className="is-available" />Свободно</span>
-          <span><i className="is-reserved" />Забронировано</span>
-          <span><i className="is-unavailable" />Недоступно</span>
-        </div>
-        <p className="vb-plan-panel__hint">Наведите на номер на плане, чтобы увидеть название и цену.</p>
-        <Link className="vb-button" href="/contacts#booking">Уточнить свободные даты</Link>
-      </aside>
-      <div className="vb-plan">
-        <Image resource={block.planImage} />
-        {block.objects?.map((item: BlockData, index: number) => (
-          <a
-            aria-label={`${item.number}${item.price ? ` — ${item.price}` : ''}`}
-            className={`vb-plan__marker vb-plan__marker--${item.status || 'available'}`}
-            href={item.url || '/contacts#booking'}
-            key={item.id || index}
-            style={{ left: `${item.x}%`, top: `${item.y}%` }}
-          >
-            <b>{item.number}</b>
-            <span>{item.description}{item.price ? <><br /><strong>{item.price}</strong></> : null}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </Section>
-)
+      )}
+    </Section>
+  )
+}
 
 const TestimonialsRenderer: Renderer = (block) => (
   <Section block={block}>
