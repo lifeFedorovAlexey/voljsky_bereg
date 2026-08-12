@@ -1,0 +1,29 @@
+.admin-bar {
+  --admin-bar-height: 36px;
+
+  position: relative;
+  z-index: 50;
+  height: var(--admin-bar-height);
+  min-height: var(--admin-bar-height);
+  overflow: hidden;
+  background: #101713;
+  font-size: 12px;
+  line-height: 1;
+
+  > .container {
+    height: 100%;
+  }
+
+  [class*='payload-admin-bar'] {
+    min-height: 0;
+  }
+
+  a,
+  button {
+    min-height: 36px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}

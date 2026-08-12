@@ -1,0 +1,106 @@
+.dashboard .before-dashboard {
+  margin: 0 0 var(--spacer-6);
+  max-width: 1120px;
+}
+
+.before-dashboard__intro {
+  background: linear-gradient(135deg, #183e35 0%, #285c4d 100%);
+  border-radius: 18px;
+  color: #fff;
+  padding: clamp(28px, 4vw, 52px);
+  position: relative;
+}
+
+.before-dashboard__eyebrow {
+  color: #d8c9a7;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.before-dashboard__intro h1 {
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: -.04em;
+  margin: 0 0 14px;
+}
+
+.before-dashboard__intro p:not(.before-dashboard__eyebrow) {
+  color: rgba(255, 255, 255, .78);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 650px;
+}
+
+.before-dashboard__site-link {
+  background: #fff;
+  border-radius: 9px;
+  color: #183e35;
+  display: inline-flex;
+  font-weight: 700;
+  margin-top: 24px;
+  padding: 11px 16px;
+  text-decoration: none;
+}
+
+.before-dashboard__actions {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.before-dashboard__action {
+  background: var(--theme-elevation-50);
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 14px;
+  color: var(--theme-text);
+  display: grid;
+  min-height: 150px;
+  padding: 20px;
+  text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.before-dashboard__action:hover {
+  border-color: #5c806d;
+  transform: translateY(-2px);
+}
+
+.before-dashboard__action span {
+  color: #6c8b7b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.before-dashboard__action strong {
+  align-self: end;
+  font-size: 18px;
+  margin-top: 24px;
+}
+
+.before-dashboard__action small {
+  color: var(--theme-elevation-600);
+  line-height: 1.45;
+  margin-top: 6px;
+}
+
+.before-dashboard__help {
+  border-left: 3px solid #5c806d;
+  margin-top: 24px;
+  padding: 6px 0 6px 20px;
+}
+
+.before-dashboard__help ol {
+  color: var(--theme-elevation-700);
+  line-height: 1.7;
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+@media (max-width: 800px) {
+  .before-dashboard__actions { grid-template-columns: 1fr; }
+  .before-dashboard__action { min-height: 120px; }
+}

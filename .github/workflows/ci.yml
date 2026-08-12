@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: voljsky_bereg_test
+          POSTGRES_USER: voljsky
+          POSTGRES_PASSWORD: voljsky_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U voljsky -d voljsky_bereg_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://voljsky:voljsky_test@127.0.0.1:5432/voljsky_bereg_test
+      PAYLOAD_SECRET: ci-only-payload-secret-at-least-32-characters
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+      CRON_SECRET: ci-only-cron-secret
+      PREVIEW_SECRET: ci-only-preview-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run generate:types
+      - run: npx tsc --noEmit
+      - run: npm run test:int
+      - run: npm run build

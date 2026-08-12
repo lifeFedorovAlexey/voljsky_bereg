@@ -1,0 +1,53 @@
+.template-default {
+  --theme-elevation-0: #f7f5ef;
+  --theme-elevation-50: #efede6;
+  --theme-elevation-100: #e4e0d6;
+  --theme-elevation-150: #d8d4ca;
+  --theme-success-500: #3d705d;
+  --theme-success-600: #285c4d;
+}
+
+.vb-logo {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.vb-logo strong {
+  font-family: Georgia, serif;
+  font-size: 18px;
+}
+
+.vb-logo small {
+  font-size: 8px;
+  letter-spacing: .16em;
+  margin-top: 5px;
+  opacity: .62;
+  text-transform: uppercase;
+}
+
+.nav-group__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.collection-list__wrap .table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.collection-list__wrap .table tbody tr:hover {
+  background: rgba(61, 112, 93, .08);
+}
+
+.blocks-field__row {
+  --theme-text: #14251f;
+  --theme-elevation-800: #233c32;
+}
+
+.blocks-field__row .blocks-field__block-pill,
+.blocks-field__row .blocks-field__block-header {
+  color: #14251f;
+}

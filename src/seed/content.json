@@ -1,0 +1,585 @@
+{
+  "pages": [
+    {
+      "title": "Контакты",
+      "slug": "contacts",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Контакты",
+          "title": "Давайте спланируем ваш отдых",
+          "description": "Напишите или позвоните — ответим на вопросы и поможем выбрать размещение.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Связаться с нами",
+          "description": "Замените стартовые контакты на фактические перед публикацией.",
+          "address": "Тверская область, берег Волги",
+          "phone": "+7 (900) 000-00-00",
+          "email": "hello@voljsky-bereg.ru",
+          "workingHours": "Ежедневно, 09:00–21:00",
+          "mapEmbedUrl": null,
+          "blockName": null,
+          "messengers": [],
+          "blockType": "contacts"
+        },
+        {
+          "anchor": "booking",
+          "theme": "sand",
+          "eyebrow": "Онлайн-запись",
+          "title": "Выберите удобное время отдыха",
+          "description": "Бронирование откроется в официальной форме YCLIENTS.",
+          "yclientsUrl": null,
+          "buttonLabel": "Забронировать",
+          "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
+          "image": null,
+          "blockName": null,
+          "blockType": "booking"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    },
+    {
+      "title": "О нас",
+      "slug": "about",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "О нас",
+          "title": "Место с уважением к природе и вашему времени",
+          "description": "Мы создаём не курорт с шумной программой, а понятное пространство для настоящего отдыха.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
+          "title": "Главное здесь — ощущение места",
+          "description": "Архитектура не спорит с ландшафтом, маршруты ведут к воде, а сервис остаётся внимательным и ненавязчивым.",
+          "image": "@media:stayHouse",
+          "imagePosition": "right",
+          "body": null,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "splitContent"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Что говорят гости",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "avatar": null,
+              "author": "Анна и Михаил",
+              "text": "Редкий случай, когда фотографии не передают всей тишины и красоты места.",
+              "rating": 5
+            },
+            {
+              "avatar": null,
+              "author": "Семья Орловых",
+              "text": "Детям было чем заняться, а взрослым наконец удалось выдохнуть.",
+              "rating": 5
+            }
+          ],
+          "blockType": "testimonials"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    },
+    {
+      "title": "Отдых и активности",
+      "slug": "activities",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Впечатления",
+          "title": "День складывается так, как хочется вам",
+          "description": "Спокойно у воды или активно на маршруте — выбирайте своё.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Чем заняться",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "image": "@media:heroVolga",
+              "title": "Прогулка вдоль Волги",
+              "text": "Маршрут для тихого утра и золотого часа."
+            },
+            {
+              "image": "@media:eveningFire",
+              "title": "Вечер у огня",
+              "text": "Место для ужина, разговоров и звёздного неба."
+            },
+            {
+              "image": "@media:stayHouse",
+              "title": "Банный день",
+              "text": "Тёплый сценарий отдыха в любую погоду."
+            }
+          ],
+          "blockType": "activities"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
+          "title": "Соберём программу под вашу поездку",
+          "description": "Расскажите, кто едет и сколько у вас времени — предложим подходящий ритм отдыха.",
+          "image": null,
+          "blockName": null,
+          "buttons": [
+            {
+              "label": "Связаться",
+              "newTab": null
+            }
+          ],
+          "blockType": "promo"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    },
+    {
+      "title": "Территория",
+      "slug": "territory",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Территория",
+          "title": "Всё рядом — и у каждого своё пространство",
+          "description": "Интерактивная схема территории: план, статусы, фильтры и карточки объектов.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Выберите место на карте",
+          "description": "Положение, статус, цена и описание каждого маркера редактируются в CMS.",
+          "planImage": "@media:sitePlan",
+          "blockName": null,
+          "filters": [
+            {
+              "label": "Все",
+              "value": "all"
+            },
+            {
+              "label": "У воды",
+              "value": "water"
+            },
+            {
+              "label": "Для семьи",
+              "value": "family"
+            }
+          ],
+          "objects": [
+            {
+              "number": "1",
+              "x": 16,
+              "y": 43,
+              "status": "available",
+              "category": "water",
+              "price": "от 12 000 ₽",
+              "description": "Дом у воды"
+            },
+            {
+              "number": "2",
+              "x": 27,
+              "y": 39,
+              "status": "reserved",
+              "category": "water",
+              "price": "от 12 000 ₽",
+              "description": "Дом с террасой"
+            },
+            {
+              "number": "5",
+              "x": 52,
+              "y": 37,
+              "status": "available",
+              "category": "family",
+              "price": "от 9 500 ₽",
+              "description": "Семейный дом"
+            },
+            {
+              "number": "9",
+              "x": 22,
+              "y": 62,
+              "status": "available",
+              "category": "family",
+              "price": "от 7 500 ₽",
+              "description": "Тихий дом"
+            },
+            {
+              "number": "12",
+              "x": 55,
+              "y": 60,
+              "status": "unavailable",
+              "category": "family",
+              "price": null,
+              "description": "На обслуживании"
+            }
+          ],
+          "blockType": "mapPlan"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
+          "title": "Ориентиры на территории",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "image": null,
+              "icon": "⚓",
+              "title": "Берег",
+              "text": "Спуск к воде и прогулочная линия."
+            },
+            {
+              "image": null,
+              "icon": "♨",
+              "title": "Банная зона",
+              "text": "Отдельное пространство для отдыха."
+            },
+            {
+              "image": null,
+              "icon": "☕",
+              "title": "Общая гостиная",
+              "text": "Место встреч и неспешных завтраков."
+            }
+          ],
+          "blockType": "featureGrid"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    },
+    {
+      "title": "Размещение",
+      "slug": "stays",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Размещение",
+          "title": "Дом для вашего отдыха",
+          "description": "Выбирайте формат по количеству гостей и настроению поездки.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Варианты размещения",
+          "description": "Стартовые варианты — цены и характеристики легко заменить в админке.",
+          "blockName": null,
+          "items": [
+            {
+              "image": "@media:stayHouse",
+              "name": "Дом у воды",
+              "summary": "Панорамная гостиная, терраса и две спальни.",
+              "price": "от 12 000 ₽ / ночь",
+              "capacity": 6,
+              "bookingUrl": null,
+              "features": [
+                {
+                  "text": "2 спальни"
+                },
+                {
+                  "text": "Кухня"
+                },
+                {
+                  "text": "Терраса"
+                }
+              ]
+            },
+            {
+              "image": "@media:eveningFire",
+              "name": "Тихий дом",
+              "summary": "Компактный вариант для пары или небольшой семьи.",
+              "price": "от 7 500 ₽ / ночь",
+              "capacity": 4,
+              "bookingUrl": null,
+              "features": [
+                {
+                  "text": "1 спальня"
+                },
+                {
+                  "text": "Каминная зона"
+                },
+                {
+                  "text": "Вид на лес"
+                }
+              ]
+            }
+          ],
+          "blockType": "stays"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
+          "title": "Перед поездкой",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "question": "Что взять с собой?",
+              "answer": "Личные вещи и хорошее настроение — базовое оснащение дома указано в карточке."
+            },
+            {
+              "question": "Можно ли с детьми?",
+              "answer": "Да. При бронировании сообщите возраст детей, чтобы мы подсказали подходящий дом."
+            },
+            {
+              "question": "Как проходит заселение?",
+              "answer": "После бронирования администратор пришлёт детали заезда и схему проезда."
+            }
+          ],
+          "blockType": "faq"
+        },
+        {
+          "anchor": "booking",
+          "theme": "sand",
+          "eyebrow": "Онлайн-запись",
+          "title": "Выберите удобное время отдыха",
+          "description": "Бронирование откроется в официальной форме YCLIENTS.",
+          "yclientsUrl": null,
+          "buttonLabel": "Забронировать",
+          "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
+          "image": null,
+          "blockName": null,
+          "blockType": "booking"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    },
+    {
+      "title": "Волжский берег",
+      "slug": "home",
+      "layout": [
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Тишина. Волга. Свой ритм.",
+          "title": "Отдых на берегу Волги",
+          "description": "Загородное место для выходных, семейных встреч и спокойных дней у воды.",
+          "image": "@media:heroVolga",
+          "overlay": 43,
+          "blockName": null,
+          "buttons": [
+            {
+              "label": "Выбрать размещение",
+              "newTab": null
+            },
+            {
+              "label": "Посмотреть территорию",
+              "newTab": null
+            }
+          ],
+          "blockType": "siteHero"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": "О месте",
+          "title": "Берег, где не нужно спешить",
+          "description": "Утро начинается с воды и сосен, день — с прогулки или лодки, вечер — с огня и разговоров.",
+          "image": "@media:eveningFire",
+          "imagePosition": "left",
+          "body": null,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "splitContent"
+        },
+        {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Всё для простого хорошего отдыха",
+          "description": "Природа рядом, понятный сервис и пространство для своих сценариев.",
+          "blockName": null,
+          "items": [
+            {
+              "image": null,
+              "icon": "≈",
+              "title": "Первая линия",
+              "text": "Выход к воде и виды на Волгу."
+            },
+            {
+              "image": null,
+              "icon": "⌂",
+              "title": "Уютные дома",
+              "text": "Размещение для пары, семьи или компании."
+            },
+            {
+              "image": null,
+              "icon": "✦",
+              "title": "Активности",
+              "text": "Прогулки, вода, баня и вечер у огня."
+            }
+          ],
+          "blockType": "featureGrid"
+        },
+        {
+          "anchor": null,
+          "theme": "dark",
+          "eyebrow": "Атмосфера",
+          "title": "Дни, которые остаются в памяти",
+          "description": null,
+          "layout": "mosaic",
+          "blockName": null,
+          "images": [
+            {
+              "image": "@media:heroVolga",
+              "caption": "Природа рядом"
+            },
+            {
+              "image": "@media:stayHouse",
+              "caption": "Свой дом на выходные"
+            },
+            {
+              "image": "@media:eveningFire",
+              "caption": "Тёплые вечера"
+            }
+          ],
+          "blockType": "gallery"
+        },
+        {
+          "anchor": "booking",
+          "theme": "sand",
+          "eyebrow": "Онлайн-запись",
+          "title": "Выберите удобное время отдыха",
+          "description": "Бронирование откроется в официальной форме YCLIENTS.",
+          "yclientsUrl": null,
+          "buttonLabel": "Забронировать",
+          "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
+          "image": null,
+          "blockName": null,
+          "blockType": "booking"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      }
+    }
+  ],
+  "header": {
+    "navItems": [
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Размещение"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Территория"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Отдых"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "О нас"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Контакты"
+        }
+      }
+    ]
+  },
+  "footer": {
+    "navItems": [
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Размещение"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Территория"
+        }
+      },
+      {
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "label": "Контакты"
+        }
+      }
+    ]
+  }
+}

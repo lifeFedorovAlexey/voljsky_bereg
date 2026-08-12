@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Рассвет над широкой рекой</title><desc id="desc">Авторская атмосферная иллюстрация берега Волги для стартовой версии сайта.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c9b88f"/><stop offset=".45" stop-color="#71847a"/><stop offset="1" stop-color="#233d35"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#486d70"/><stop offset=".55" stop-color="#294b4a"/><stop offset="1" stop-color="#102b26"/></linearGradient>
+    <radialGradient id="sun"><stop stop-color="#fff6cf"/><stop offset=".25" stop-color="#e9c278" stop-opacity=".75"/><stop offset="1" stop-color="#e9c278" stop-opacity="0"/></radialGradient>
+    <linearGradient id="mist"><stop stop-color="#fff" stop-opacity=".32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect width="1800" height="1100" fill="url(#sky)"/>
+  <circle cx="1250" cy="320" r="260" fill="url(#sun)"/>
+  <path d="M0 450 C240 370 390 420 590 380 C790 340 950 390 1140 355 C1390 310 1560 380 1800 300 L1800 650 L0 650Z" fill="#31483b"/>
+  <path d="M0 490 C220 410 430 490 650 430 C890 365 1060 455 1300 390 C1500 340 1640 390 1800 350 L1800 670 L0 670Z" fill="#20372e"/>
+  <path d="M0 550 C300 500 520 575 750 520 C990 465 1190 560 1420 480 C1580 430 1700 470 1800 450 L1800 1100 L0 1100Z" fill="url(#water)"/>
+  <path d="M180 640 C500 570 730 670 1030 590 C1290 520 1490 570 1770 500" fill="none" stroke="#a6bbb1" stroke-opacity=".28" stroke-width="8"/>
+  <path d="M80 760 C410 675 680 810 980 710 C1260 615 1480 720 1790 610" fill="none" stroke="#b9cbc0" stroke-opacity=".18" stroke-width="5"/>
+  <path d="M0 720 C140 600 240 610 360 670 C475 730 560 760 700 810 L700 1100 L0 1100Z" fill="#142c23"/>
+  <path d="M1800 660 C1640 570 1530 600 1430 690 C1330 780 1280 840 1160 900 L1160 1100 L1800 1100Z" fill="#173127"/>
+  <g fill="#0e251d">
+    <path d="M90 570 l35-115 35 115h-18l28 80H80l28-80z"/><path d="M220 600 l42-150 42 150h-20l34 96H205l35-96z"/>
+    <path d="M1580 570 l38-130 38 130h-20l32 90h-103l32-90z"/><path d="M1700 610 l45-165 45 165h-22l37 105h-120l38-105z"/>
+  </g>
+  <ellipse cx="980" cy="565" rx="760" ry="95" fill="url(#mist)" filter="url(#blur)"/>
+  <g fill="#e6d8b9" opacity=".5"><path d="M1180 292 q22-18 44 0 q-22-8-44 0"/><path d="M1235 270 q17-14 34 0 q-17-6-34 0"/></g>
+</svg>
