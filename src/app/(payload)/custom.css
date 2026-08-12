@@ -1,12 +1,3 @@
-.template-default {
-  --theme-elevation-0: #f7f5ef;
-  --theme-elevation-50: #efede6;
-  --theme-elevation-100: #e4e0d6;
-  --theme-elevation-150: #d8d4ca;
-  --theme-success-500: #3d705d;
-  --theme-success-600: #285c4d;
-}
-
 .vb-logo {
   display: inline-flex;
   flex-direction: column;
@@ -34,20 +25,23 @@
 }
 
 .collection-list__wrap .table {
+  border: 1px solid var(--theme-elevation-150);
   border-radius: 12px;
   overflow: hidden;
 }
 
 .collection-list__wrap .table tbody tr:hover {
-  background: rgba(61, 112, 93, .08);
+  background: var(--theme-elevation-100);
 }
 
-.blocks-field__row {
-  --theme-text: #14251f;
-  --theme-elevation-800: #233c32;
+.collection-list__wrap .table thead th,
+.collection-list__wrap .table thead button,
+.collection-list__wrap .table thead a {
+  color: var(--theme-text);
+  opacity: .78;
 }
 
-.blocks-field__row .blocks-field__block-pill,
-.blocks-field__row .blocks-field__block-header {
-  color: #14251f;
+.collection-list__wrap .search-filter input::placeholder {
+  color: var(--theme-text);
+  opacity: .62;
 }
