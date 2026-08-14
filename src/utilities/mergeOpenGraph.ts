@@ -6,11 +6,11 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'Отдых на берегу Волги: уютные дома, природа и спокойный ритм.',
   images: [
     {
-      url: `${getServerSideURL()}/hero-volga.svg`,
+      url: `${getServerSideURL()}/ienevo-river-pier.jpg`,
     },
   ],
-  siteName: 'Волжский берег',
-  title: 'Волжский берег',
+  siteName: 'Иенево. Берег',
+  title: 'Иенево. Берег',
 }
 
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {

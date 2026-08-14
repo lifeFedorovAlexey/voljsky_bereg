@@ -11,8 +11,8 @@ export const Logo = (props: Props) => {
 
   return (
     <span className={`vb-logo ${className || ''}`}>
-      <strong>Волжский берег</strong>
-      <small>отдых на Волге</small>
+      <strong>Иенево. Берег</strong>
+      <small>коттеджный посёлок</small>
     </span>
   )
 }

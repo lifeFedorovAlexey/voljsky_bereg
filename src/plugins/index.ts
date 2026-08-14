@@ -14,7 +14,7 @@ import { searchFields } from '@/search/fieldOverrides'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) =>
-  doc?.title ? `${doc.title} | Волжский берег` : 'Волжский берег'
+  doc?.title ? `${doc.title} | Иенево. Берег` : 'Иенево. Берег'
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   const url = getServerSideURL()

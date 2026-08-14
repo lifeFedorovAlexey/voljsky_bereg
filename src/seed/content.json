@@ -10,7 +10,7 @@
           "eyebrow": "Контакты",
           "title": "Давайте спланируем ваш отдых",
           "description": "Напишите или позвоните — ответим на вопросы и поможем выбрать размещение.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverPier",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
@@ -21,11 +21,11 @@
           "theme": "light",
           "eyebrow": null,
           "title": "Связаться с нами",
-          "description": "Замените стартовые контакты на фактические перед публикацией.",
-          "address": "Тверская область, берег Волги",
-          "phone": "+7 (900) 000-00-00",
-          "email": "hello@voljsky-bereg.ru",
-          "workingHours": "Ежедневно, 09:00–21:00",
+          "description": "Позвоните — ответим на вопросы о территории и поможем спланировать поездку.",
+          "address": "Иенево, берег Волги",
+          "phone": "+7 (930) 165-13-29",
+          "email": null,
+          "workingHours": null,
           "mapEmbedUrl": null,
           "blockName": null,
           "messengers": [],
@@ -61,7 +61,7 @@
           "eyebrow": "О нас",
           "title": "Место с уважением к природе и вашему времени",
           "description": "Мы создаём не курорт с шумной программой, а понятное пространство для настоящего отдыха.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverTerritory",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
@@ -73,7 +73,7 @@
           "eyebrow": null,
           "title": "Главное здесь — ощущение места",
           "description": "Архитектура не спорит с ландшафтом, маршруты ведут к воде, а сервис остаётся внимательным и ненавязчивым.",
-          "image": "@media:stayHouse",
+          "image": "@media:ienevoEntrance",
           "imagePosition": "right",
           "body": null,
           "blockName": null,
@@ -120,7 +120,7 @@
           "eyebrow": "Впечатления",
           "title": "День складывается так, как хочется вам",
           "description": "Спокойно у воды или активно на маршруте — выбирайте своё.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverPier",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
@@ -135,7 +135,7 @@
           "blockName": null,
           "items": [
             {
-              "image": "@media:heroVolga",
+              "image": "@media:ienevoRiverPier",
               "title": "Прогулка вдоль Волги",
               "text": "Маршрут для тихого утра и золотого часа."
             },
@@ -185,7 +185,7 @@
           "eyebrow": "Территория",
           "title": "Всё рядом — и у каждого своё пространство",
           "description": "Интерактивная схема территории: план, статусы, фильтры и карточки объектов.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverTerritory",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
@@ -308,7 +308,7 @@
           "eyebrow": "Размещение",
           "title": "Дом для вашего отдыха",
           "description": "Выбирайте формат по количеству гостей и настроению поездки.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverTerritory",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
@@ -319,7 +319,7 @@
           "theme": "light",
           "eyebrow": null,
           "title": "Варианты размещения",
-          "description": "Стартовые варианты — цены и характеристики легко заменить в админке.",
+          "description": "Выберите подходящий формат по числу гостей и расположению на территории.",
           "blockName": null,
           "items": [
             {
@@ -407,7 +407,7 @@
       }
     },
     {
-      "title": "Волжский берег",
+      "title": "Иенево. Берег",
       "slug": "home",
       "layout": [
         {
@@ -416,7 +416,7 @@
           "eyebrow": "Тишина. Волга. Свой ритм.",
           "title": "Отдых на берегу Волги",
           "description": "Загородное место для выходных, семейных встреч и спокойных дней у воды.",
-          "image": "@media:heroVolga",
+          "image": "@media:ienevoRiverPier",
           "overlay": 43,
           "blockName": null,
           "buttons": [
@@ -437,7 +437,7 @@
           "eyebrow": "О месте",
           "title": "Берег, где не нужно спешить",
           "description": "Утро начинается с воды и сосен, день — с прогулки или лодки, вечер — с огня и разговоров.",
-          "image": "@media:eveningFire",
+          "image": "@media:ienevoRiverTerritory",
           "imagePosition": "left",
           "body": null,
           "blockName": null,
@@ -483,16 +483,16 @@
           "blockName": null,
           "images": [
             {
-              "image": "@media:heroVolga",
-              "caption": "Природа рядом"
+              "image": "@media:ienevoRiverPier",
+              "caption": "Свой причал на Волге"
             },
             {
-              "image": "@media:stayHouse",
-              "caption": "Свой дом на выходные"
+              "image": "@media:ienevoEntrance",
+              "caption": "Закрытая территория"
             },
             {
-              "image": "@media:eveningFire",
-              "caption": "Тёплые вечера"
+              "image": "@media:ienevoRiverTerritory",
+              "caption": "Первая линия у воды"
             }
           ],
           "blockType": "gallery"

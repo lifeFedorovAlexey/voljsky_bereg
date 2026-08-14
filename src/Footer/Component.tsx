@@ -24,7 +24,7 @@ export async function Footer() {
               return <CMSLink className="text-white" key={i} {...link} />
             })}
           </nav>
-          <p className="vb-footer__note">© {new Date().getFullYear()} Волжский берег · Стартовые контакты необходимо подтвердить перед публикацией.</p>
+          <p className="vb-footer__note">© {new Date().getFullYear()} Иенево. Берег · Коттеджный посёлок на Волге.</p>
         </div>
       </div>
     </footer>

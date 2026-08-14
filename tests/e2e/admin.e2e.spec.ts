@@ -21,7 +21,7 @@ test.describe('Admin Panel', () => {
   test('can navigate to dashboard', async () => {
     await page.goto('http://localhost:3000/admin')
     await expect(page).toHaveURL('http://localhost:3000/admin')
-    await expect(page.getByRole('heading', { name: 'Сайт «Волжский берег»' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Сайт «Иенево. Берег»' })).toBeVisible()
     await expect(page.locator('.before-dashboard__action')).toHaveCount(4)
     await expect(page.locator('.dashboard > .before-dashboard + div')).toBeHidden()
   })

@@ -26,6 +26,6 @@ export async function login({
 
   await page.waitForURL(`${serverURL}/admin`)
 
-  const dashboardArtifact = page.getByRole('heading', { name: 'Сайт «Волжский берег»' })
+  const dashboardArtifact = page.getByRole('heading', { name: 'Сайт «Иенево. Берег»' })
   await expect(dashboardArtifact).toBeVisible()
 }

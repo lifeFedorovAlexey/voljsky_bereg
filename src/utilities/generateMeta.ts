@@ -8,7 +8,7 @@ import { getServerSideURL } from './getURL'
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
 
-  let url = serverUrl + '/hero-volga.svg'
+  let url = serverUrl + '/ienevo-river-pier.jpg'
 
   if (image && typeof image === 'object' && 'url' in image) {
     const ogUrl = image.sizes?.og?.url
@@ -27,10 +27,10 @@ export const generateMeta = async (args: {
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
-    ? doc.meta.title + ' | Волжский берег'
+    ? doc.meta.title + ' | Иенево. Берег'
     : doc && 'title' in doc && doc.title
-      ? `${doc.title} | Волжский берег`
-      : 'Волжский берег — отдых на Волге'
+      ? `${doc.title} | Иенево. Берег`
+      : 'Иенево. Берег — коттеджный посёлок на Волге'
 
   return {
     description: doc?.meta?.description,

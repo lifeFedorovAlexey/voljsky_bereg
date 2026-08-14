@@ -29,7 +29,7 @@ const BeforeDashboard: React.FC = () => (
   <section className="before-dashboard">
     <div className="before-dashboard__intro">
       <p className="before-dashboard__eyebrow">Панель управления</p>
-      <h1>Сайт «Волжский берег»</h1>
+      <h1>Сайт «Иенево. Берег»</h1>
       <p>Выберите, что хотите изменить. Все изменения можно сохранить как черновик и проверить перед публикацией.</p>
       <a className="before-dashboard__site-link" href="/" target="_blank" rel="noreferrer">
         Открыть сайт ↗

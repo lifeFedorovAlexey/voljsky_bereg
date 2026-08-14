@@ -4,9 +4,9 @@ import './index.css'
 
 const BeforeLogin: React.FC = () => (
   <div className="before-login">
-    <span className="before-login__mark">ВБ</span>
+    <span className="before-login__mark">ИБ</span>
     <div>
-      <strong>Управление сайтом «Волжский берег»</strong>
+      <strong>Управление сайтом «Иенево. Берег»</strong>
       <p>Войдите под учётной записью администратора.</p>
     </div>
   </div>

@@ -38,7 +38,7 @@ export default buildConfig({
     },
     user: Users.slug,
     meta: {
-      titleSuffix: ' — Волжский берег',
+      titleSuffix: ' — Иенево. Берег',
     },
     livePreview: {
       breakpoints: [
