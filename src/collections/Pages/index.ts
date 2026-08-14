@@ -39,7 +39,7 @@ export const Pages: CollectionConfig = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', '_status', 'updatedAt'],
     description: 'Откройте страницу, чтобы изменить текст, изображения и порядок блоков.',
     group: 'Содержимое сайта',
     hideAPIURL: true,
@@ -127,13 +127,13 @@ export const Pages: CollectionConfig = {
     },
     {
       name: 'slug',
-      label: 'Адрес страницы',
+      label: 'Адрес страницы в браузере',
       type: 'text',
       required: true,
       unique: true,
       index: true,
       admin: {
-        description: 'Например: about или contacts. Для главной страницы: home',
+        description: 'Обычно менять не нужно. Для главной страницы используется home.',
         position: 'sidebar',
       },
     },

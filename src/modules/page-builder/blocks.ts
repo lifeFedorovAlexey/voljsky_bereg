@@ -1,19 +1,22 @@
 import type { Block, Field } from 'payload'
 
 const sectionSettings: Field[] = [
-  { name: 'anchor', label: 'Якорь секции', type: 'text' },
+  { name: 'anchor', label: 'Якорь секции', type: 'text', admin: { hidden: true } },
   {
     name: 'theme',
-    label: 'Оформление',
+    label: 'Фон секции',
     type: 'select',
     defaultValue: 'light',
+    admin: {
+      description: 'Выберите фон, на котором будет показан этот блок.',
+    },
     options: [
       { label: 'Светлое', value: 'light' },
       { label: 'Тёмное', value: 'dark' },
       { label: 'Песочное', value: 'sand' },
     ],
   },
-  { name: 'eyebrow', label: 'Надзаголовок', type: 'text' },
+  { name: 'eyebrow', label: 'Короткая подпись над заголовком', type: 'text', admin: { description: 'Необязательно. Например: «Отдых на Волге».' } },
   { name: 'title', label: 'Заголовок', type: 'text', required: true },
   { name: 'description', label: 'Описание', type: 'textarea' },
 ]
@@ -151,11 +154,12 @@ export const MapPlan = block('mapPlan', 'Интерактивный генпла
       description: 'Нарисуйте на карте дома, участки и служебные зоны. Геометрия сохраняется вместе со страницей.',
     },
   },
-  { ...image, name: 'planImage', label: 'Изображение генплана' },
+  { ...image, name: 'planImage', label: 'Изображение генплана', admin: { hidden: true } },
   {
     name: 'filters',
     label: 'Фильтры',
     type: 'array',
+    admin: { hidden: true },
     fields: [
       { name: 'label', label: 'Название', type: 'text', required: true },
       { name: 'value', label: 'Системное значение', type: 'text', required: true },
@@ -166,7 +170,7 @@ export const MapPlan = block('mapPlan', 'Интерактивный генпла
     label: 'Старые маркеры на изображении (режим совместимости)',
     type: 'array',
     admin: {
-      description: 'Используются только пока новая Яндекс Карта не настроена. Существующие данные не удаляются.',
+      hidden: true,
     },
     fields: [
       { name: 'number', label: 'Номер / название', type: 'text', required: true },

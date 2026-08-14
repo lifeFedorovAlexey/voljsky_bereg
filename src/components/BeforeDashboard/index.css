@@ -48,8 +48,14 @@
 .before-dashboard__actions {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 16px;
+}
+
+/* BeforeDashboard replaces Payload's generic collection catalogue with a
+   task-oriented owner dashboard. Navigation remains available in the sidebar. */
+.dashboard > .before-dashboard + div {
+  display: none;
 }
 
 .before-dashboard__action {

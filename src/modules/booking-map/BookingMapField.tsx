@@ -149,14 +149,14 @@ export function BookingMapField({ field, path }: Props) {
       <FieldDescription description="Нарисуйте контуры домов и участков. Эти же фигуры посетитель увидит на сайте и сможет выбрать для бронирования." path={path} />
       {!apiKey ? (
         <div className="booking-map-field__setup">
-          <strong>Яндекс Карты ещё не подключены</strong>
-          <p>Добавьте <code>NEXT_PUBLIC_YANDEX_MAPS_API_KEY</code> в окружение и перезапустите сайт. Данные этого блока сохранятся.</p>
+          <strong>Карта временно недоступна для редактирования</strong>
+          <p>Настройка подключения ещё не завершена. Обратитесь к разработчику сайта. Сохранённые объекты и публичная страница не пострадают.</p>
         </div>
       ) : (
         <>
           <div className="booking-map-field__toolbar">
-            <button onClick={drawPolygon} type="button">Нарисовать участок</button>
-            <button onClick={addPoint} type="button">Поставить точку</button>
+            <button onClick={drawPolygon} type="button">Нарисовать дом или участок</button>
+            <button onClick={addPoint} type="button">Добавить точку</button>
             <span>{message}</span>
           </div>
           <div className="booking-map-field__canvas" ref={mapNode} />
@@ -171,13 +171,12 @@ export function BookingMapField({ field, path }: Props) {
       </div>
       {selected && (
         <div className="booking-map-field__form">
-          <label>Код объекта<input readOnly value={selected.id} /></label>
           <label>Название<input value={selected.name} onChange={(event) => updateObject(selected.id, { name: event.target.value })} /></label>
           <label>Статус<select value={selected.status} onChange={(event) => updateObject(selected.id, { status: event.target.value as BookingMapObject['status'] })}>{statusOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-          <label>Категория<input value={selected.category || ''} onChange={(event) => updateObject(selected.id, { category: event.target.value })} /></label>
+          <label>Группа объекта<input placeholder="Например: У воды" value={selected.category || ''} onChange={(event) => updateObject(selected.id, { category: event.target.value })} /></label>
           <label>Цена<input value={selected.price || ''} onChange={(event) => updateObject(selected.id, { price: event.target.value })} /></label>
           <label className="is-wide">Описание<textarea value={selected.description || ''} onChange={(event) => updateObject(selected.id, { description: event.target.value })} /></label>
-          <label className="is-wide">Ссылка YCLIENTS для этого объекта<input value={selected.bookingUrl || ''} onChange={(event) => updateObject(selected.id, { bookingUrl: event.target.value })} /></label>
+          <label className="is-wide">Ссылка для бронирования<input placeholder="Без ссылки кнопка бронирования не появится" value={selected.bookingUrl || ''} onChange={(event) => updateObject(selected.id, { bookingUrl: event.target.value })} /></label>
           {selected.kind === 'polygon' && apiKey && <button className="booking-map-field__save-shape" onClick={saveEditedPolygon} type="button">Сохранить изменённый контур</button>}
           <button className="booking-map-field__delete" onClick={() => { update({ ...mapValue, objects: mapValue.objects.filter((item) => item.id !== selected.id) }); setSelectedID(null) }} type="button">Удалить объект</button>
         </div>

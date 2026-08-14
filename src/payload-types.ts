@@ -178,7 +178,7 @@ export interface Page {
   };
   publishedAt?: string | null;
   /**
-   * Например: about или contacts. Для главной страницы: home
+   * Обычно менять не нужно. Для главной страницы используется home.
    */
   slug: string;
   updatedAt: string;
@@ -191,7 +191,13 @@ export interface Page {
  */
 export interface SiteHeroBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -313,7 +319,13 @@ export interface Media {
  */
 export interface SplitContentBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -352,7 +364,13 @@ export interface SplitContentBlock {
  */
 export interface FeatureGridBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -376,7 +394,13 @@ export interface FeatureGridBlock {
  */
 export interface GalleryBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -398,7 +422,13 @@ export interface GalleryBlock {
  */
 export interface StaysBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -429,7 +459,13 @@ export interface StaysBlock {
  */
 export interface MapPlanBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -453,9 +489,6 @@ export interface MapPlanBlock {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Используются только пока новая Яндекс Карта не настроена. Существующие данные не удаляются.
-   */
   objects?:
     | {
         number: string;
@@ -479,7 +512,13 @@ export interface MapPlanBlock {
  */
 export interface ActivitiesBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -501,7 +540,13 @@ export interface ActivitiesBlock {
  */
 export interface TestimonialsBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -524,7 +569,13 @@ export interface TestimonialsBlock {
  */
 export interface FaqBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -545,7 +596,13 @@ export interface FaqBlock {
  */
 export interface PromoBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -568,7 +625,13 @@ export interface PromoBlock {
  */
 export interface ContactsBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
@@ -595,7 +658,13 @@ export interface ContactsBlock {
  */
 export interface BookingBlock {
   anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
   theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
   eyebrow?: string | null;
   title: string;
   description?: string | null;
