@@ -6,7 +6,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'Отдых на берегу Волги: уютные дома, природа и спокойный ритм.',
   images: [
     {
-      url: `${getServerSideURL()}/ienevo-river-pier.jpg`,
+      url: `${getServerSideURL()}/ienevo-sunset-hero.jpg`,
     },
   ],
   siteName: 'Иенево. Берег',

@@ -416,7 +416,7 @@
           "eyebrow": "Тишина. Волга. Свой ритм.",
           "title": "Отдых на берегу Волги",
           "description": "Загородное место для выходных, семейных встреч и спокойных дней у воды.",
-          "image": "@media:ienevoRiverPier",
+          "image": "@media:ienevoSunsetHero",
           "overlay": 43,
           "blockName": null,
           "buttons": [
@@ -513,7 +513,7 @@
       ],
       "meta": {
         "title": null,
-        "image": null,
+        "image": "@media:ienevoSunsetHero",
         "description": null
       }
     }

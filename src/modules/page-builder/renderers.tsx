@@ -25,9 +25,26 @@ const Section = ({ children, block, className = '' }: { children: React.ReactNod
   </section>
 )
 
-const Image = ({ resource, className = '' }: { resource?: unknown; className?: string }) =>
+const Image = ({
+  resource,
+  className = '',
+  priority = false,
+  size,
+}: {
+  resource?: unknown
+  className?: string
+  priority?: boolean
+  size?: string
+}) =>
   resource && typeof resource === 'object' ? (
-    <Media className={className} imgClassName="object-cover" resource={resource as never} />
+    <Media
+      className={className}
+      imgClassName="object-cover"
+      loading={priority ? 'eager' : undefined}
+      priority={priority}
+      resource={resource as never}
+      size={size}
+    />
   ) : null
 
 const Buttons = ({ items }: { items?: BlockData[] }) =>
@@ -43,7 +60,12 @@ const Buttons = ({ items }: { items?: BlockData[] }) =>
 
 const SiteHeroRenderer: Renderer = (block) => (
   <section className={`vb-hero vb-hero--${block.height || 'large'}`} id={block.anchor || undefined}>
-    <Image className="vb-hero__media" resource={block.image} />
+    <Image
+      className="vb-hero__media"
+      priority
+      resource={block.image}
+      size="(max-width: 640px) 180vh, 100vw"
+    />
     <div className="vb-hero__overlay" style={{ opacity: Number(block.overlay || 35) / 100 }} />
     <div className="container vb-hero__content">
       {block.eyebrow && <p className="vb-eyebrow">{block.eyebrow}</p>}

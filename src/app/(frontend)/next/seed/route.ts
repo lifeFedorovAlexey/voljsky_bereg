@@ -20,6 +20,7 @@ const mediaSources = {
   ienevoRiverPier: { alt: 'Причал на берегу Волги в «Иенево. Берег»', filename: 'ienevo-river-pier.jpg' },
   ienevoRiverTerritory: { alt: 'Территория «Иенево. Берег» у Волги', filename: 'ienevo-river-territory.jpg' },
   ienevoSitePlanReference: { alt: 'Фотография схемы территории', filename: 'ienevo-site-plan-reference.jpg' },
+  ienevoSunsetHero: { alt: 'Закат над Волгой в «Иенево. Берег»', filename: 'ienevo-sunset-hero.jpg' },
   stayHouse: { alt: 'Деревянный дом для отдыха', filename: 'stay-house.jpg' },
   eveningFire: { alt: 'Вечерний отдых у огня', filename: 'evening-fire.jpg' },
   sitePlan: { alt: 'Схема территории «Иенево. Берег»', filename: 'voljsky-plan.svg' },
