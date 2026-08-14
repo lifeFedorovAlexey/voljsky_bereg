@@ -59,7 +59,7 @@ const Buttons = ({ items }: { items?: BlockData[] }) =>
   ) : null
 
 const SiteHeroRenderer: Renderer = (block) => (
-  <section className={`vb-hero vb-hero--${block.height || 'large'}`} id={block.anchor || undefined}>
+  <section className="vb-hero vb-hero--large" id={block.anchor || undefined}>
     <Image
       className="vb-hero__media"
       priority

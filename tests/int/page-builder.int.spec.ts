@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 import { pageBuilderBlocks, pageBuilderBlockSlugs } from '@/modules/page-builder/blocks'
 import { blockRenderers } from '@/modules/page-builder/renderers'
@@ -33,5 +35,23 @@ describe('page builder catalogue', () => {
       expect(block.labels?.singular).toBeTruthy()
       expect(block.labels?.plural).toBeTruthy()
     }
+  })
+
+  it('keeps hero height uniform while retaining the legacy CMS field', () => {
+    const heroBlock = pageBuilderBlocks.find((block) => block.slug === 'siteHero')
+    const heightField = heroBlock?.fields.find(
+      (field) => 'name' in field && field.name === 'height',
+    )
+
+    expect(heightField).toMatchObject({
+      admin: { hidden: true },
+      defaultValue: 'large',
+    })
+
+    const markup = renderToStaticMarkup(
+      createElement(blockRenderers.siteHero, { height: 'screen', title: 'Проверка' }),
+    )
+    expect(markup).toContain('vb-hero--large')
+    expect(markup).not.toContain('vb-hero--screen')
   })
 })

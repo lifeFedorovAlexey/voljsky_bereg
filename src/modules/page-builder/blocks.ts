@@ -61,6 +61,9 @@ export const SiteHero = block('siteHero', 'Первый экран', [
     label: 'Высота',
     type: 'select',
     defaultValue: 'large',
+    admin: {
+      hidden: true,
+    },
     options: [
       { label: 'Компактная', value: 'compact' },
       { label: 'Большая', value: 'large' },
