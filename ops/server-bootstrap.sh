@@ -50,6 +50,13 @@ EOF
   chmod 600 "$ENV_FILE"
 fi
 
+if ! grep -q '^BOOTSTRAP_SEED_SECRET=' "$ENV_FILE"; then
+  printf 'BOOTSTRAP_SEED_SECRET=%s\n' "$(openssl rand -hex 32)" >> "$ENV_FILE"
+fi
+if ! grep -q '^PAYLOAD_DB_PUSH=' "$ENV_FILE"; then
+  printf 'PAYLOAD_DB_PUSH=true\n' >> "$ENV_FILE"
+fi
+
 DB_PASSWORD="$(sed -n 's/^DATABASE_URL=postgresql:\/\/voljsky:\([^@]*\)@.*/\1/p' "$ENV_FILE")"
 if [[ -z "$DB_PASSWORD" ]]; then
   echo "DATABASE_URL in $ENV_FILE has an unexpected format." >&2

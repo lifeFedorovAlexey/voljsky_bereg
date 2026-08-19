@@ -48,8 +48,14 @@ export async function POST(): Promise<Response> {
   const payload = await getPayload({ config })
   const requestHeaders = await headers()
   const { user } = await payload.auth({ headers: requestHeaders })
+  const bootstrapSecret = process.env.BOOTSTRAP_SEED_SECRET
+  const hasBootstrapAccess =
+    Boolean(bootstrapSecret) &&
+    requestHeaders.get('authorization') === `Bearer ${bootstrapSecret}`
 
-  if (!user) return Response.json({ error: 'Требуется вход в админку' }, { status: 401 })
+  if (!user && !hasBootstrapAccess) {
+    return Response.json({ error: 'Требуется вход в админку' }, { status: 401 })
+  }
 
   const media: Record<string, number> = {}
 

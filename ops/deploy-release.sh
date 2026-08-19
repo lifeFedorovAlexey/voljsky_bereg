@@ -9,6 +9,8 @@ CURRENT_LINK="$APP_ROOT/current"
 RELEASE_DIR="$RELEASES_DIR/$VERSION"
 SERVICE="voljsky-bereg.service"
 HEALTH_URL="http://127.0.0.1:3000/"
+SEED_URL="http://127.0.0.1:3000/next/seed"
+ENV_FILE="/etc/voljsky-bereg/production.env"
 
 if [[ ! -f "$ARCHIVE" ]]; then
   echo "Release archive not found: $ARCHIVE" >&2
@@ -29,6 +31,35 @@ fi
 ln -sfn "$RELEASE_DIR" "$APP_ROOT/current.next"
 mv -Tf "$APP_ROOT/current.next" "$CURRENT_LINK"
 systemctl restart "$SERVICE"
+
+if [[ -f "$ENV_FILE" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  . "$ENV_FILE"
+  set +a
+fi
+
+if [[ "${PAYLOAD_DB_PUSH:-}" == "true" && -n "${BOOTSTRAP_SEED_SECRET:-}" ]]; then
+  seeded=0
+  for attempt in $(seq 1 30); do
+    if curl --fail --silent --show-error --max-time 5 \
+      -X POST \
+      -H "Authorization: Bearer $BOOTSTRAP_SEED_SECRET" \
+      "$SEED_URL" >/dev/null; then
+      seeded=1
+      break
+    fi
+    sleep 2
+  done
+
+  if [[ "$seeded" -ne 1 ]]; then
+    echo "Production seed failed for release $VERSION" >&2
+    exit 1
+  fi
+
+  sed -i '/^PAYLOAD_DB_PUSH=/d' "$ENV_FILE"
+  systemctl restart "$SERVICE"
+fi
 
 healthy=0
 for attempt in $(seq 1 30); do
