@@ -75,8 +75,8 @@ $DEPLOY_USER ALL=(root) NOPASSWD: /usr/local/sbin/voljsky-bereg-deploy *
 EOF
 chmod 440 "/etc/sudoers.d/voljsky-bereg"
 
-if [[ -f /tmp/voljsky-bereg-deploy.sh ]]; then
-  install -o root -g root -m 750 /tmp/voljsky-bereg-deploy.sh /usr/local/sbin/voljsky-bereg-deploy
+if [[ -f /tmp/deploy-release.sh ]]; then
+  install -o root -g root -m 750 /tmp/deploy-release.sh /usr/local/sbin/voljsky-bereg-deploy
 fi
 
 cat > /etc/systemd/system/voljsky-bereg.service <<EOF
