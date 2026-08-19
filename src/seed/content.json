@@ -37,7 +37,7 @@
           "eyebrow": "Онлайн-запись",
           "title": "Выберите удобное время отдыха",
           "description": "Бронирование откроется в официальной форме YCLIENTS.",
-          "yclientsUrl": null,
+          "yclientsUrl": "https://n2494653.yclients.com",
           "buttonLabel": "Забронировать",
           "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
           "image": null,
@@ -184,84 +184,14 @@
           "theme": "dark",
           "eyebrow": "Территория",
           "title": "Всё рядом — и у каждого своё пространство",
-          "description": "Интерактивная схема территории: план, статусы, фильтры и карточки объектов.",
+          "description": null,
           "image": "@media:ienevoRiverTerritory",
           "overlay": 43,
           "blockName": null,
           "buttons": [],
           "blockType": "siteHero"
         },
-        {
-          "anchor": null,
-          "theme": "light",
-          "eyebrow": null,
-          "title": "Выберите место на карте",
-          "description": "Выберите дом или участок на карте, чтобы посмотреть статус, цену и условия бронирования.",
-          "planImage": "@media:sitePlan",
-          "blockName": null,
-          "filters": [
-            {
-              "label": "Все",
-              "value": "all"
-            },
-            {
-              "label": "У воды",
-              "value": "water"
-            },
-            {
-              "label": "Для семьи",
-              "value": "family"
-            }
-          ],
-          "objects": [
-            {
-              "number": "1",
-              "x": 16,
-              "y": 43,
-              "status": "available",
-              "category": "water",
-              "price": "от 12 000 ₽",
-              "description": "Дом у воды"
-            },
-            {
-              "number": "2",
-              "x": 27,
-              "y": 39,
-              "status": "reserved",
-              "category": "water",
-              "price": "от 12 000 ₽",
-              "description": "Дом с террасой"
-            },
-            {
-              "number": "5",
-              "x": 52,
-              "y": 37,
-              "status": "available",
-              "category": "family",
-              "price": "от 9 500 ₽",
-              "description": "Семейный дом"
-            },
-            {
-              "number": "9",
-              "x": 22,
-              "y": 62,
-              "status": "available",
-              "category": "family",
-              "price": "от 7 500 ₽",
-              "description": "Тихий дом"
-            },
-            {
-              "number": "12",
-              "x": 55,
-              "y": 60,
-              "status": "unavailable",
-              "category": "family",
-              "price": null,
-              "description": "На обслуживании"
-            }
-          ],
-          "blockType": "mapPlan"
-        },
+
         {
           "anchor": null,
           "theme": "sand",
@@ -290,6 +220,18 @@
             }
           ],
           "blockType": "featureGrid"
+        },
+        {
+          "anchor": "location",
+          "theme": "light",
+          "eyebrow": "Как добраться",
+          "title": "Иенево. Берег на карте",
+          "description": "Точная точка расположения объекта на берегу Волги.",
+          "latitude": 56.818252,
+          "longitude": 36.005132,
+          "address": "Иенево, берег Волги",
+          "blockName": null,
+          "blockType": "locationMap"
         }
       ],
       "meta": {
@@ -392,7 +334,7 @@
           "eyebrow": "Онлайн-запись",
           "title": "Выберите удобное время отдыха",
           "description": "Бронирование откроется в официальной форме YCLIENTS.",
-          "yclientsUrl": null,
+          "yclientsUrl": "https://n2494653.yclients.com",
           "buttonLabel": "Забронировать",
           "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
           "image": null,
@@ -503,7 +445,7 @@
           "eyebrow": "Онлайн-запись",
           "title": "Выберите удобное время отдыха",
           "description": "Бронирование откроется в официальной форме YCLIENTS.",
-          "yclientsUrl": null,
+          "yclientsUrl": "https://n2494653.yclients.com",
           "buttonLabel": "Забронировать",
           "fallbackText": "Онлайн-запись подключается. Позвоните нам — поможем подобрать даты.",
           "image": null,

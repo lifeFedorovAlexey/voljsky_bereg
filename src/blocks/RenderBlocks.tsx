@@ -2,7 +2,11 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { blockRenderers } from '@/modules/page-builder/renderers'
+import {
+  blockRenderers,
+  ContactBookingRenderer,
+  isUnavailableBooking,
+} from '@/modules/page-builder/renderers'
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
@@ -16,6 +20,20 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block
+          const nextBlock = blocks[index + 1]
+          const previousBlock = blocks[index - 1]
+
+          if (blockType === 'booking' && previousBlock?.blockType === 'contacts' && isUnavailableBooking(block)) {
+            return null
+          }
+
+          if (blockType === 'contacts' && isUnavailableBooking(nextBlock)) {
+            return (
+              <div key={index}>
+                <ContactBookingRenderer booking={nextBlock} contact={block} />
+              </div>
+            )
+          }
 
           if (blockType && blockType in blockRenderers) {
             const Block = blockRenderers[blockType]

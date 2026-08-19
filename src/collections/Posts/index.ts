@@ -114,6 +114,8 @@ export const Posts: CollectionConfig = {
                 position: 'sidebar',
               },
               filterOptions: ({ id }) => {
+                if (!id) return true
+
                 return {
                   id: {
                     not_in: [id],

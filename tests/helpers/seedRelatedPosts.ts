@@ -38,6 +38,7 @@ export async function seedRelatedPosts(): Promise<void> {
       slug: relatedPostsFixture.categorySlug,
       title: relatedPostsFixture.categoryTitle,
     },
+    overrideAccess: true,
     ...disableRevalidate,
   })
 
@@ -45,6 +46,7 @@ export async function seedRelatedPosts(): Promise<void> {
     collection: 'media',
     data: { alt: relatedPostsFixture.imageAlt },
     filePath: path.resolve(dirname, '../../src/endpoints/seed/image-post1.webp'),
+    overrideAccess: true,
     ...disableRevalidate,
   })
 
@@ -58,6 +60,7 @@ export async function seedRelatedPosts(): Promise<void> {
       slug: relatedPostsFixture.relatedPostSlug,
       title: relatedPostsFixture.relatedPostTitle,
     },
+    overrideAccess: true,
     ...disableRevalidate,
   })
 
@@ -70,6 +73,7 @@ export async function seedRelatedPosts(): Promise<void> {
       slug: relatedPostsFixture.postSlug,
       title: relatedPostsFixture.postTitle,
     },
+    overrideAccess: true,
     ...disableRevalidate,
   })
 }
@@ -78,6 +82,11 @@ export async function cleanupRelatedPosts(): Promise<void> {
   const payload = await getPayload({ config })
 
   await deleteFixture({ payload })
+}
+
+export async function closeRelatedPostsPayload(): Promise<void> {
+  const payload = await getPayload({ config })
+  await payload.destroy()
 }
 
 async function deleteFixture({ payload }: { payload: Payload }): Promise<void> {

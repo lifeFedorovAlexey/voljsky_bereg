@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import config from '../../src/payload.config.js'
 
 export const testUser = {
-  email: 'dev@payloadcms.com',
+  email: 'e2e-admin@example.com',
   password: 'test',
 }
 
@@ -43,4 +43,9 @@ export async function cleanupTestUser(): Promise<void> {
       },
     },
   })
+}
+
+export async function closeTestPayload(): Promise<void> {
+  const payload = await getPayload({ config })
+  await payload.destroy()
 }

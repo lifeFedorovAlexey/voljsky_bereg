@@ -6,7 +6,7 @@ import type { BookingMapObject } from './model'
 import { getBookableMapObject, normalizeBookingMap, toYandexCoordinates } from './model'
 import { loadYandexMaps, type YandexMap } from './loadYandexMaps'
 
-const colors = { available: '#69a95a', reserved: '#c6884d', unavailable: '#727872' }
+const colors = { available: '#69a95a', reserved: '#c6884d', unavailable: '#6d736d' }
 
 type Props = { apiKey?: string; value: unknown }
 
@@ -48,7 +48,7 @@ export function PublicBookingMap({ apiKey, value }: Props) {
   }, [apiKey, mapValue])
 
   if (!apiKey) {
-    return <div className="vb-booking-map__missing">Для интерактивной карты нужен ключ Яндекс Карт. Объекты и бронирование сохранятся после настройки ключа.</div>
+    return <div className="vb-booking-map__missing">Интерактивная карта временно недоступна. Свяжитесь с нами — поможем подобрать подходящий дом.</div>
   }
 
   return (

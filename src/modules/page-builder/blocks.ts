@@ -98,7 +98,12 @@ export const FeatureGrid = block('featureGrid', 'Карточки преимущ
     minRows: 1,
     fields: [
       image,
-      { name: 'icon', label: 'Иконка или номер', type: 'text' },
+      {
+        name: 'icon',
+        label: 'Старая иконка',
+        type: 'text',
+        admin: { hidden: true },
+      },
       { name: 'title', label: 'Название', type: 'text', required: true },
       { name: 'text', label: 'Описание', type: 'textarea' },
       { name: 'url', label: 'Ссылка', type: 'text' },
@@ -140,7 +145,32 @@ export const Stays = block('stays', 'Варианты размещения', [
       { name: 'price', label: 'Цена / подпись цены', type: 'text' },
       { name: 'capacity', label: 'Количество гостей', type: 'number', min: 1 },
       { name: 'features', label: 'Характеристики', type: 'array', fields: [{ name: 'text', label: 'Характеристика', type: 'text' }] },
-      { name: 'bookingUrl', label: 'Ссылка бронирования', type: 'text' },
+      {
+        name: 'yclientsServiceId',
+        label: 'YCLIENTS: ID услуги',
+        type: 'number',
+        min: 1,
+        admin: {
+          description: 'Заполняется реальным ID услуги из настроенного филиала YCLIENTS.',
+        },
+      },
+      {
+        name: 'yclientsStaffId',
+        label: 'YCLIENTS: ID сотрудника / ресурса',
+        type: 'number',
+        min: 1,
+        admin: {
+          description: 'Не выдумывать: укажите staff_id ресурса после read-only проверки API.',
+        },
+      },
+      {
+        name: 'bookingUrl',
+        label: 'Старая ссылка бронирования',
+        type: 'text',
+        admin: {
+          description: 'Legacy fallback. Native API-flow использует поля YCLIENTS выше.',
+        },
+      },
     ],
   },
 ])
@@ -198,6 +228,26 @@ export const MapPlan = block('mapPlan', 'Интерактивный генпла
   },
 ])
 
+export const LocationMap = block('locationMap', 'Карта расположения', [
+  {
+    name: 'latitude',
+    label: 'Широта',
+    type: 'number',
+    min: -90,
+    max: 90,
+    required: true,
+  },
+  {
+    name: 'longitude',
+    label: 'Долгота',
+    type: 'number',
+    min: -180,
+    max: 180,
+    required: true,
+  },
+  { name: 'address', label: 'Подпись места', type: 'text' },
+])
+
 export const Activities = block('activities', 'Активности и инфраструктура', [
   {
     name: 'items',
@@ -209,9 +259,27 @@ export const Activities = block('activities', 'Активности и инфр�
 
 export const Testimonials = block('testimonials', 'Отзывы', [
   {
+    name: 'showForm',
+    label: 'Показывать форму «Оставить отзыв»',
+    type: 'checkbox',
+    defaultValue: true,
+  },
+  {
+    name: 'maxItems',
+    label: 'Количество опубликованных отзывов',
+    type: 'select',
+    defaultValue: '4',
+    options: [
+      { label: '2 отзыва', value: '2' },
+      { label: '4 отзыва', value: '4' },
+      { label: '6 отзывов', value: '6' },
+    ],
+  },
+  {
     name: 'items',
-    label: 'Отзывы',
+    label: 'Старые отзывы (режим совместимости)',
     type: 'array',
+    admin: { hidden: true },
     fields: [
       { ...image, name: 'avatar', label: 'Фотография автора' },
       { name: 'author', label: 'Имя', type: 'text', required: true },
@@ -251,7 +319,7 @@ export const Booking = block('booking', 'Бронирование YCLIENTS', [
     type: 'text',
     admin: { description: 'Например: https://n123456.yclients.com/' },
   },
-  { name: 'buttonLabel', label: 'Текст кнопки', type: 'text', defaultValue: 'Забронировать' },
+  { name: 'buttonLabel', label: 'Текст кнопки', type: 'text', defaultValue: 'Узнать даты' },
   { name: 'fallbackText', label: 'Сообщение, если YCLIENTS не настроен', type: 'textarea' },
   image,
 ])
@@ -263,6 +331,7 @@ export const pageBuilderBlocks: Block[] = [
   Gallery,
   Stays,
   MapPlan,
+  LocationMap,
   Activities,
   Testimonials,
   Faq,

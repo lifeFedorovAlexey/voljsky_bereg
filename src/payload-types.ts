@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     pages: Page;
+    'guest-reviews': GuestReview;
     posts: Post;
     media: Media;
     categories: Category;
@@ -85,6 +86,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
+    'guest-reviews': GuestReviewsSelect<false> | GuestReviewsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
@@ -106,10 +108,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    yclientsSettings: YclientsSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    yclientsSettings: YclientsSettingsSelect<false> | YclientsSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -161,6 +165,7 @@ export interface Page {
     | GalleryBlock
     | StaysBlock
     | MapPlanBlock
+    | LocationMapBlock
     | ActivitiesBlock
     | TestimonialsBlock
     | FaqBlock
@@ -445,6 +450,17 @@ export interface StaysBlock {
               id?: string | null;
             }[]
           | null;
+        /**
+         * Заполняется реальным ID услуги из настроенного филиала YCLIENTS.
+         */
+        yclientsServiceId?: number | null;
+        /**
+         * Не выдумывать: укажите staff_id ресурса после read-only проверки API.
+         */
+        yclientsStaffId?: number | null;
+        /**
+         * Legacy fallback. Native API-flow использует поля YCLIENTS выше.
+         */
         bookingUrl?: string | null;
         id?: string | null;
       }[]
@@ -508,6 +524,29 @@ export interface MapPlanBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LocationMapBlock".
+ */
+export interface LocationMapBlock {
+  anchor?: string | null;
+  /**
+   * Выберите фон, на котором будет показан этот блок.
+   */
+  theme?: ('light' | 'dark' | 'sand') | null;
+  /**
+   * Необязательно. Например: «Отдых на Волге».
+   */
+  eyebrow?: string | null;
+  title: string;
+  description?: string | null;
+  latitude: number;
+  longitude: number;
+  address?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'locationMap';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ActivitiesBlock".
  */
 export interface ActivitiesBlock {
@@ -550,6 +589,8 @@ export interface TestimonialsBlock {
   eyebrow?: string | null;
   title: string;
   description?: string | null;
+  showForm?: boolean | null;
+  maxItems?: ('2' | '4' | '6') | null;
   items?:
     | {
         avatar?: (number | null) | Media;
@@ -678,6 +719,28 @@ export interface BookingBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'booking';
+}
+/**
+ * Проверяйте новые отзывы и публикуйте только подтверждённые записи.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "guest-reviews".
+ */
+export interface GuestReview {
+  id: number;
+  author: string;
+  text: string;
+  rating: number;
+  /**
+   * На сайте показываются только опубликованные отзывы.
+   */
+  status: 'pending' | 'published' | 'rejected';
+  /**
+   * Внутренняя заметка. На сайте не показывается.
+   */
+  moderationNote?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1130,6 +1193,10 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
+        relationTo: 'guest-reviews';
+        value: number | GuestReview;
+      } | null)
+    | ({
         relationTo: 'posts';
         value: number | Post;
       } | null)
@@ -1218,6 +1285,7 @@ export interface PagesSelect<T extends boolean = true> {
         gallery?: T | GalleryBlockSelect<T>;
         stays?: T | StaysBlockSelect<T>;
         mapPlan?: T | MapPlanBlockSelect<T>;
+        locationMap?: T | LocationMapBlockSelect<T>;
         activities?: T | ActivitiesBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
         faq?: T | FaqBlockSelect<T>;
@@ -1354,6 +1422,8 @@ export interface StaysBlockSelect<T extends boolean = true> {
               text?: T;
               id?: T;
             };
+        yclientsServiceId?: T;
+        yclientsStaffId?: T;
         bookingUrl?: T;
         id?: T;
       };
@@ -1397,6 +1467,22 @@ export interface MapPlanBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LocationMapBlock_select".
+ */
+export interface LocationMapBlockSelect<T extends boolean = true> {
+  anchor?: T;
+  theme?: T;
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  latitude?: T;
+  longitude?: T;
+  address?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ActivitiesBlock_select".
  */
 export interface ActivitiesBlockSelect<T extends boolean = true> {
@@ -1426,6 +1512,8 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
   eyebrow?: T;
   title?: T;
   description?: T;
+  showForm?: T;
+  maxItems?: T;
   items?:
     | T
     | {
@@ -1522,6 +1610,19 @@ export interface BookingBlockSelect<T extends boolean = true> {
   image?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "guest-reviews_select".
+ */
+export interface GuestReviewsSelect<T extends boolean = true> {
+  author?: T;
+  text?: T;
+  rating?: T;
+  status?: T;
+  moderationNote?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2004,6 +2105,33 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Настройка реального филиала YCLIENTS и native read-only booking flow.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "yclientsSettings".
+ */
+export interface YclientsSetting {
+  id: number;
+  /**
+   * Включайте только после read-only проверки реального company_id и доступов.
+   */
+  enabled?: boolean | null;
+  /**
+   * Только подпись для админки, например «Иенево. Берег». Не является API-ключом.
+   */
+  accountLabel?: string | null;
+  /**
+   * Реальный ID филиала из API. Тестовый company_id сюда не переносить.
+   */
+  companyId?: number | null;
+  /**
+   * Создание записи и SMS-подтверждение подключаются отдельным этапом.
+   */
+  mode?: ('native-readonly' | 'hosted-fallback') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -2045,6 +2173,19 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "yclientsSettings_select".
+ */
+export interface YclientsSettingsSelect<T extends boolean = true> {
+  enabled?: T;
+  accountLabel?: T;
+  companyId?: T;
+  mode?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

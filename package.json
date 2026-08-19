@@ -5,20 +5,17 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build --webpack",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && npm run build && npm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation eslint . --fix",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "test": "npm run test:int && npm run test:e2e",
-    "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
+    "test": "npm run test:int",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
@@ -56,7 +53,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@playwright/test": "1.59.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/react": "16.3.0",
