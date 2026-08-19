@@ -57,7 +57,11 @@ if [[ -z "$DB_PASSWORD" ]]; then
 fi
 
 systemctl enable --now postgresql
-runuser -u postgres -- psql -v ON_ERROR_STOP=1 -c "DO \\$\\$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'voljsky') THEN CREATE ROLE voljsky LOGIN PASSWORD '$DB_PASSWORD'; ELSE ALTER ROLE voljsky WITH LOGIN PASSWORD '$DB_PASSWORD'; END IF; END \\$\\$;"
+if runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='voljsky'" | grep -q 1; then
+  runuser -u postgres -- psql -v ON_ERROR_STOP=1 -c "ALTER ROLE voljsky WITH LOGIN PASSWORD '$DB_PASSWORD';"
+else
+  runuser -u postgres -- psql -v ON_ERROR_STOP=1 -c "CREATE ROLE voljsky LOGIN PASSWORD '$DB_PASSWORD';"
+fi
 if ! runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_database WHERE datname='voljsky_bereg'" | grep -q 1; then
   runuser -u postgres -- createdb -O "$APP_USER" voljsky_bereg
 fi
