@@ -1,0 +1,114 @@
+name: Native production deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: voljsky-bereg-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: voljsky_bereg_test
+          POSTGRES_USER: voljsky
+          POSTGRES_PASSWORD: voljsky_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U voljsky -d voljsky_bereg_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://voljsky:voljsky_test@127.0.0.1:5432/voljsky_bereg_test
+      PAYLOAD_SECRET: ci-only-payload-secret-at-least-32-characters
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+      CRON_SECRET: ci-only-cron-secret
+      PREVIEW_SECRET: ci-only-preview-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run generate:types
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Package standalone release
+        run: |
+          rm -rf release voljsky-bereg-release.tar.gz
+          mkdir -p release/.next
+          cp -a .next/standalone/. release/
+          cp -a .next/static release/.next/static
+          cp -a public release/public
+          tar -czf voljsky-bereg-release.tar.gz -C release .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voljsky-bereg-release-${{ github.sha }}
+          path: voljsky-bereg-release.tar.gz
+          retention-days: 14
+
+  deploy:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: package
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: voljsky-bereg-release-${{ github.sha }}
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+      - name: Upload release
+        id: bootstrap-check
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          BOOTSTRAP_USER: ${{ secrets.BOOTSTRAP_USER }}
+        run: |
+          if ssh -p "${DEPLOY_PORT:-22}" "${BOOTSTRAP_USER}@${DEPLOY_HOST}" \
+            "test -x /usr/local/sbin/voljsky-bereg-deploy"; then
+            echo "bootstrapped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "bootstrapped=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Server bootstrap has not been run yet; deployment skipped."
+          fi
+      - name: Upload release to bootstrapped server
+        if: steps.bootstrap-check.outputs.bootstrapped == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          RELEASE: voljsky-bereg-release.tar.gz
+        run: |
+          scp -P "${DEPLOY_PORT:-22}" "$RELEASE" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:/tmp/voljsky-bereg-${GITHUB_SHA}.tar.gz"
+      - name: Activate release and verify
+        if: steps.bootstrap-check.outputs.bootstrapped == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh -p "${DEPLOY_PORT:-22}" "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "sudo /usr/local/sbin/voljsky-bereg-deploy '${GITHUB_SHA}' '/tmp/voljsky-bereg-${GITHUB_SHA}.tar.gz'"

@@ -1,0 +1,43 @@
+name: Bootstrap native Ubuntu server
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure bootstrap SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+          ssh-keygen -y -f "$HOME/.ssh/id_ed25519" > deploy.pub
+      - name: Upload bootstrap files
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          BOOTSTRAP_USER: ${{ secrets.BOOTSTRAP_USER }}
+        run: |
+          scp -P "${DEPLOY_PORT:-22}" \
+            ops/server-bootstrap.sh ops/deploy-release.sh deploy.pub \
+            "${BOOTSTRAP_USER}@${DEPLOY_HOST}:/tmp/"
+      - name: Install native runtime
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          BOOTSTRAP_USER: ${{ secrets.BOOTSTRAP_USER }}
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
+        run: |
+          ssh -p "${DEPLOY_PORT:-22}" "${BOOTSTRAP_USER}@${DEPLOY_HOST}" \
+            "chmod 700 /tmp/server-bootstrap.sh /tmp/deploy-release.sh && \
+             sudo /tmp/server-bootstrap.sh '${PUBLIC_URL:-http://5.42.119.142}' /tmp/deploy.pub"
