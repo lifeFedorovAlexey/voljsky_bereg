@@ -26,7 +26,7 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          BOOTSTRAP_USER: ${{ secrets.BOOTSTRAP_USER }}
+          BOOTSTRAP_USER: root
         run: |
           scp -P "${DEPLOY_PORT:-22}" \
             ops/server-bootstrap.sh ops/deploy-release.sh deploy.pub \
@@ -35,7 +35,7 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          BOOTSTRAP_USER: ${{ secrets.BOOTSTRAP_USER }}
+          BOOTSTRAP_USER: root
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
         run: |
           ssh -p "${DEPLOY_PORT:-22}" "${BOOTSTRAP_USER}@${DEPLOY_HOST}" \
