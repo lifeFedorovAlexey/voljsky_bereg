@@ -1,12 +1,6 @@
-name: Bootstrap native Ubuntu server
+name: Bootstrap — Первичная настройка
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/bootstrap.yml'
-      - 'ops/server-bootstrap.sh'
-      - 'ops/deploy-release.sh'
   workflow_dispatch:
 
 permissions:
