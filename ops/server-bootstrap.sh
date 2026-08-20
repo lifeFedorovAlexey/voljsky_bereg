@@ -26,7 +26,7 @@ fi
 id "$APP_USER" >/dev/null 2>&1 || useradd --system --create-home --home-dir "$APP_ROOT" --shell /usr/sbin/nologin "$APP_USER"
 id "$DEPLOY_USER" >/dev/null 2>&1 || useradd --create-home --shell /bin/bash "$DEPLOY_USER"
 
-install -d -o "$APP_USER" -g "$APP_USER" -m 750 "$APP_ROOT" "$APP_ROOT/releases"
+install -d -o "$APP_USER" -g "$APP_USER" -m 750 "$APP_ROOT" "$APP_ROOT/releases" "$APP_ROOT/shared/media"
 install -d -o root -g root -m 750 "$ENV_DIR"
 
 if [[ ! -f "$ENV_FILE" ]]; then

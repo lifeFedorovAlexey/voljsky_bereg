@@ -5,6 +5,7 @@ VERSION="${1:?release version is required}"
 ARCHIVE="${2:?release archive is required}"
 APP_ROOT="/opt/voljsky-bereg"
 RELEASES_DIR="$APP_ROOT/releases"
+MEDIA_DIR="$APP_ROOT/shared/media"
 CURRENT_LINK="$APP_ROOT/current"
 RELEASE_DIR="$RELEASES_DIR/$VERSION"
 SERVICE="voljsky-bereg.service"
@@ -17,11 +18,15 @@ if [[ ! -f "$ARCHIVE" ]]; then
   exit 1
 fi
 
-mkdir -p "$RELEASES_DIR"
+mkdir -p "$RELEASES_DIR" "$MEDIA_DIR"
 rm -rf "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR"
 tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
+mkdir -p "$RELEASE_DIR/public"
+rm -rf "$RELEASE_DIR/public/media"
+ln -s "$MEDIA_DIR" "$RELEASE_DIR/public/media"
 chown -R voljsky:voljsky "$RELEASE_DIR"
+chown -R voljsky:voljsky "$MEDIA_DIR"
 
 PREVIOUS=""
 if [[ -L "$CURRENT_LINK" ]]; then

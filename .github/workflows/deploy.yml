@@ -52,6 +52,7 @@ jobs:
           rm -rf release voljsky-bereg-release.tar.gz
           mkdir -p release/.next
           cp -a .next/standalone/. release/
+          rm -rf release/.next/static release/public
           cp -a .next/static release/.next/static
           cp -a public release/public
           tar -czf voljsky-bereg-release.tar.gz -C release .
