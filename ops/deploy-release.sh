@@ -25,6 +25,10 @@ tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
 mkdir -p "$RELEASE_DIR/public"
 rm -rf "$RELEASE_DIR/public/media"
 ln -s "$MEDIA_DIR" "$RELEASE_DIR/public/media"
+if [[ ! -L "$RELEASE_DIR/public/media" || "$(readlink -f "$RELEASE_DIR/public/media")" != "$(readlink -f "$MEDIA_DIR")" ]]; then
+  echo "Persistent media link is invalid for release $VERSION" >&2
+  exit 1
+fi
 chown -R voljsky:voljsky "$RELEASE_DIR"
 chown -R voljsky:voljsky "$MEDIA_DIR"
 
@@ -64,6 +68,11 @@ if [[ "${PAYLOAD_DB_PUSH:-}" == "true" && -n "${BOOTSTRAP_SEED_SECRET:-}" ]]; th
 
   sed -i '/^PAYLOAD_DB_PUSH=/d' "$ENV_FILE"
   systemctl restart "$SERVICE"
+fi
+
+if grep -q '^PAYLOAD_DB_PUSH=' "$ENV_FILE"; then
+  echo "One-time production schema/seed flag must not remain enabled" >&2
+  exit 1
 fi
 
 healthy=0

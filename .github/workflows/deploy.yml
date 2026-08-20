@@ -56,6 +56,10 @@ jobs:
           cp -a .next/static release/.next/static
           cp -a public release/public
           tar -czf voljsky-bereg-release.tar.gz -C release .
+          if tar -tzf voljsky-bereg-release.tar.gz | grep -Eq '^\./public/media(/|$)'; then
+            echo 'Persistent media must not be included in the release archive.' >&2
+            exit 1
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: voljsky-bereg-release-${{ github.sha }}
@@ -113,3 +117,13 @@ jobs:
         run: |
           ssh -p "${DEPLOY_PORT:-22}" "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "sudo /usr/local/sbin/voljsky-bereg-deploy '${GITHUB_SHA}' '/tmp/voljsky-bereg-${GITHUB_SHA}.tar.gz'"
+      - name: Verify persistent media mount
+        if: steps.bootstrap-check.outputs.bootstrapped == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh -p "${DEPLOY_PORT:-22}" "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "test -L /opt/voljsky-bereg/current/public/media && \
+             test \"\$(readlink -f /opt/voljsky-bereg/current/public/media)\" = /opt/voljsky-bereg/shared/media"
