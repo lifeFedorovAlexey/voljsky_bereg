@@ -35,6 +35,8 @@ type Slot = {
 type BookingStep = 'service' | 'staff' | 'datetime'
 
 const PICKER_PAGE_SIZE = 6
+const CHOICE_PAGE_SIZE = 5
+const PUBLIC_BOOKING_ERROR = 'Сейчас онлайн-запись недоступна. Позвоните нам, и мы поможем выбрать дату.'
 
 type YclientsBookingDialogProps = {
   href?: string
@@ -61,7 +63,7 @@ const serviceLabel = (service: Service) => {
 export function YclientsBookingDialog({
   href,
   title = 'Выберите удобное время отдыха',
-  description = 'Даты и доступность открываются в форме YCLIENTS.',
+  description = '',
   buttonLabel = 'Забронировать',
   nativeFlow = false,
 }: YclientsBookingDialogProps) {
@@ -84,6 +86,8 @@ export function YclientsBookingDialog({
   const [selectedSlot, setSelectedSlot] = useState('')
   const [hasCheckedAvailability, setHasCheckedAvailability] = useState(false)
   const [activeStep, setActiveStep] = useState<BookingStep>('service')
+  const [servicePage, setServicePage] = useState(0)
+  const [staffPage, setStaffPage] = useState(0)
   const [datePage, setDatePage] = useState(0)
   const [slotPage, setSlotPage] = useState(0)
 
@@ -110,15 +114,14 @@ export function YclientsBookingDialog({
         if (cancelled) return
         const services = data.services.filter((service) => service.active !== 0)
         const staff = data.staff.filter((person) => Boolean(person.bookable))
-        const dates = data.dates?.bookingDates || []
         setCatalog({ ...data, services, staff })
-        setSelectedServiceId(String(services[0]?.id || ''))
-        setSelectedStaffId(String(staff[0]?.id || ''))
-        setSelectedDate(dates[0] || '')
+        setSelectedServiceId('')
+        setSelectedStaffId('')
+        setSelectedDate('')
         setDatePage(0)
       })
-      .catch((loadError: unknown) => {
-        if (!cancelled) setError(loadError instanceof Error ? loadError.message : 'Не удалось загрузить YCLIENTS.')
+      .catch(() => {
+        if (!cancelled) setError(PUBLIC_BOOKING_ERROR)
       })
       .finally(() => {
         if (!cancelled) setCatalogLoading(false)
@@ -177,19 +180,23 @@ export function YclientsBookingDialog({
       if (!response.ok) throw new Error(data.error || 'Не удалось загрузить свободное время.')
       setSlots(Array.isArray(data.slots) ? data.slots : [])
       setSlotPage(0)
-    } catch (loadError: unknown) {
-      setError(loadError instanceof Error ? loadError.message : 'Не удалось загрузить свободное время.')
+    } catch {
+      setError(PUBLIC_BOOKING_ERROR)
     } finally {
       setSlotsLoading(false)
     }
   }
 
-  const visibleServices = (catalog?.services || [])
+  const filteredServices = (catalog?.services || [])
     .filter((service) => (service.title || '').toLocaleLowerCase().includes(serviceQuery.toLocaleLowerCase()))
     .slice(0, 24)
-  const visibleStaff = (catalog?.staff || [])
+  const filteredStaff = (catalog?.staff || [])
     .filter((person) => (person.name || '').toLocaleLowerCase().includes(staffQuery.toLocaleLowerCase()))
     .slice(0, 24)
+  const servicePageCount = Math.max(1, Math.ceil(filteredServices.length / CHOICE_PAGE_SIZE))
+  const staffPageCount = Math.max(1, Math.ceil(filteredStaff.length / CHOICE_PAGE_SIZE))
+  const visibleServicePage = filteredServices.slice(servicePage * CHOICE_PAGE_SIZE, (servicePage + 1) * CHOICE_PAGE_SIZE)
+  const visibleStaffPage = filteredStaff.slice(staffPage * CHOICE_PAGE_SIZE, (staffPage + 1) * CHOICE_PAGE_SIZE)
   const visibleDates = catalog?.dates?.bookingDates || []
   const datePageCount = Math.max(1, Math.ceil(visibleDates.length / PICKER_PAGE_SIZE))
   const visibleDatePage = visibleDates.slice(datePage * PICKER_PAGE_SIZE, (datePage + 1) * PICKER_PAGE_SIZE)
@@ -198,8 +205,13 @@ export function YclientsBookingDialog({
   const selectedService = catalog?.services.find((service) => String(service.id) === selectedServiceId)
   const selectedStaff = catalog?.staff.find((person) => String(person.id) === selectedStaffId)
 
-  function toggleStep(step: BookingStep) {
-    setActiveStep(step)
+  function goToPreviousStep() {
+    setActiveStep((step) => step === 'datetime' ? 'staff' : 'service')
+  }
+
+  function goToNextStep() {
+    if (activeStep === 'service' && selectedServiceId) setActiveStep('staff')
+    if (activeStep === 'staff' && selectedStaffId) setActiveStep('datetime')
   }
 
   return (
@@ -215,7 +227,7 @@ export function YclientsBookingDialog({
       </button>
 
       <dialog
-        aria-describedby="yclients-booking-dialog-description"
+        aria-describedby={description ? 'yclients-booking-dialog-description' : undefined}
         aria-labelledby="yclients-booking-dialog-title"
         className="vb-booking-dialog"
         onClick={handleBackdropClick}
@@ -226,9 +238,7 @@ export function YclientsBookingDialog({
           <header className="vb-booking-dialog__header">
             <div>
               <h3 id="yclients-booking-dialog-title">{title}</h3>
-              <p id="yclients-booking-dialog-description">
-                {nativeFlow ? 'Выберите услугу, специалиста и подходящее время.' : description}
-              </p>
+              {description && <p id="yclients-booking-dialog-description">{description}</p>}
             </div>
             <button
               aria-label="Закрыть форму бронирования"
@@ -247,58 +257,58 @@ export function YclientsBookingDialog({
               {error && <p className="vb-booking-dialog__error" role="alert">{error}</p>}
               {catalog && !error && (
                 <div className="vb-booking-steps">
-                  <p className="vb-booking-form__source">
-                    Онлайн-запись{catalog.company?.title ? ` · ${catalog.company.title}` : ''}
-                  </p>
-                  <div className="vb-booking-step-list">
-                    <button aria-controls="booking-step-service" aria-expanded={activeStep === 'service'} className={`vb-booking-step${activeStep === 'service' ? ' is-active' : ''}`} onClick={() => toggleStep('service')} type="button">
-                      <span aria-hidden="true" className="vb-booking-step__icon">☷</span>
-                      <span className="vb-booking-step__copy"><strong>Выбрать услугу</strong><small>{selectedService ? serviceLabel(selectedService) : 'Услуга пока не выбрана'}</small></span>
-                      <span aria-hidden="true" className="vb-booking-step__arrow">›</span>
-                    </button>
-                    {activeStep === 'service' && <div className="vb-booking-step__panel" id="booking-step-service">
-                      <label><span>Поиск услуги</span><input onChange={(event) => setServiceQuery(event.target.value)} placeholder="Найти услугу" type="search" value={serviceQuery} /></label>
-                      <div aria-label="Доступные услуги" className="vb-booking-choice-list" role="listbox">
-                        {visibleServices.length > 0 ? visibleServices.slice(0, PICKER_PAGE_SIZE).map((service) => <button aria-selected={String(service.id) === selectedServiceId} className={`vb-booking-choice${String(service.id) === selectedServiceId ? ' is-selected' : ''}`} key={service.id} onClick={() => { setSelectedServiceId(String(service.id)); setActiveStep('staff') }} role="option" type="button">
-                          <span className="vb-booking-choice__copy"><strong>{service.title || `Услуга YCLIENTS #${service.id || ''}`}</strong><small>{service.seanceLength ? `${service.seanceLength} мин` : 'Доступно для записи'}</small></span>
-                          <span className="vb-booking-choice__meta">{service.priceMin && service.priceMin > 0 ? `от ${service.priceMin.toLocaleString('ru-RU')} ₽` : 'Цена по запросу'}</span>
-                        </button>) : <p className="vb-booking-choice-list__empty">Ничего не найдено. Попробуйте другой запрос.</p>}
-                      </div>
-                    </div>}
+                  <div aria-label="Этапы записи" className="vb-booking-progress" role="list">
+                    <div className={`vb-booking-progress__item${activeStep === 'service' ? ' is-active' : ''}${selectedServiceId ? ' is-complete' : ''}`} role="listitem"><span>1</span><strong>Услуга</strong><small>{selectedService ? serviceLabel(selectedService) : 'Не выбрана'}</small></div>
+                    <div className={`vb-booking-progress__item${activeStep === 'staff' ? ' is-active' : ''}${selectedStaffId ? ' is-complete' : ''}`} role="listitem"><span>2</span><strong>Специалист</strong><small>{selectedStaff?.name || 'Не выбран'}</small></div>
+                    <div className={`vb-booking-progress__item${activeStep === 'datetime' ? ' is-active' : ''}${selectedDate ? ' is-complete' : ''}`} role="listitem"><span>3</span><strong>Дата и время</strong><small>{selectedSlot ? `${formatDate(selectedDate)} · ${selectedSlot}` : selectedDate ? formatDate(selectedDate) : 'Не выбраны'}</small></div>
+                  </div>
 
-                    <button aria-controls="booking-step-staff" aria-expanded={activeStep === 'staff'} className={`vb-booking-step${activeStep === 'staff' ? ' is-active' : ''}`} onClick={() => toggleStep('staff')} type="button">
-                      <span aria-hidden="true" className="vb-booking-step__icon">♧</span>
-                      <span className="vb-booking-step__copy"><strong>Выбрать специалиста</strong><small>{selectedStaff?.name || 'Ресурс пока не выбран'}</small></span>
-                      <span aria-hidden="true" className="vb-booking-step__arrow">›</span>
-                    </button>
-                    {activeStep === 'staff' && <div className="vb-booking-step__panel" id="booking-step-staff">
-                      <label><span>Поиск специалиста</span><input onChange={(event) => setStaffQuery(event.target.value)} placeholder="Найти сотрудника" type="search" value={staffQuery} /></label>
-                      <div aria-label="Доступные специалисты и ресурсы" className="vb-booking-choice-list" role="listbox">
-                        {visibleStaff.length > 0 ? visibleStaff.slice(0, PICKER_PAGE_SIZE).map((person) => <button aria-selected={String(person.id) === selectedStaffId} className={`vb-booking-choice${String(person.id) === selectedStaffId ? ' is-selected' : ''}`} key={person.id} onClick={() => { setSelectedStaffId(String(person.id)); setActiveStep('datetime') }} role="option" type="button">
-                          <span className="vb-booking-choice__copy"><strong>{person.name || `Ресурс #${person.id}`}</strong><small>{person.specialization || 'Доступный ресурс'}</small></span>
-                          <span aria-hidden="true" className="vb-booking-choice__check">{String(person.id) === selectedStaffId ? '✓' : ''}</span>
-                        </button>) : <p className="vb-booking-choice-list__empty">Ничего не найдено. Попробуйте другой запрос.</p>}
-                      </div>
-                    </div>}
+                  {activeStep === 'service' && <div className="vb-booking-step__panel" id="booking-step-service">
+                    <div className="vb-booking-step__heading"><strong>Выберите услугу</strong><span>Шаг 1 из 3</span></div>
+                    <label><span className="vb-sr-only">Поиск услуги</span><input onChange={(event) => { setServiceQuery(event.target.value); setServicePage(0) }} placeholder="Найти услугу" type="search" value={serviceQuery} /></label>
+                    <div aria-label="Доступные услуги" className="vb-booking-choice-list" role="listbox">
+                      {visibleServicePage.length > 0 ? visibleServicePage.map((service) => <button aria-selected={String(service.id) === selectedServiceId} className={`vb-booking-choice${String(service.id) === selectedServiceId ? ' is-selected' : ''}`} key={service.id} onClick={() => { setSelectedServiceId(String(service.id)); setActiveStep('staff') }} role="option" type="button">
+                        <span className="vb-booking-choice__copy"><strong>{service.title || 'Услуга'}</strong><small>{service.seanceLength ? `${service.seanceLength} мин` : 'Доступно для записи'}</small></span>
+                        <span className="vb-booking-choice__meta">{service.priceMin && service.priceMin > 0 ? `от ${service.priceMin.toLocaleString('ru-RU')} ₽` : 'Цена по запросу'}</span>
+                      </button>) : <p className="vb-booking-choice-list__empty">Ничего не найдено. Попробуйте другой запрос.</p>}
+                    </div>
+                    <div className="vb-booking-picker-toolbar"><span>Услуги {servicePage + 1} / {servicePageCount}</span><div className="vb-booking-picker-nav"><button disabled={servicePage === 0} onClick={() => setServicePage((page) => Math.max(0, page - 1))} type="button">Назад</button><button disabled={servicePage >= servicePageCount - 1} onClick={() => setServicePage((page) => Math.min(servicePageCount - 1, page + 1))} type="button">Дальше</button></div></div>
+                  </div>}
 
-                    <button aria-controls="booking-step-datetime" aria-expanded={activeStep === 'datetime'} className={`vb-booking-step${activeStep === 'datetime' ? ' is-active' : ''}`} onClick={() => toggleStep('datetime')} type="button">
-                      <span aria-hidden="true" className="vb-booking-step__icon">▦</span>
-                      <span className="vb-booking-step__copy"><strong>Выбрать дату и время</strong><small>{selectedSlot ? `${formatDate(selectedDate)} · ${selectedSlot}` : selectedDate ? formatDate(selectedDate) : 'Дата пока не выбрана'}</small></span>
-                      <span aria-hidden="true" className="vb-booking-step__arrow">›</span>
-                    </button>
-                    {activeStep === 'datetime' && <div className="vb-booking-step__panel" id="booking-step-datetime">
+                  {activeStep === 'staff' && <div className="vb-booking-step__panel" id="booking-step-staff">
+                    <div className="vb-booking-step__heading"><strong>Выберите специалиста</strong><span>Шаг 2 из 3</span></div>
+                    <label><span className="vb-sr-only">Поиск специалиста</span><input onChange={(event) => { setStaffQuery(event.target.value); setStaffPage(0) }} placeholder="Найти специалиста" type="search" value={staffQuery} /></label>
+                    <div aria-label="Доступные специалисты и ресурсы" className="vb-booking-choice-list" role="listbox">
+                      {visibleStaffPage.length > 0 ? visibleStaffPage.map((person) => <button aria-selected={String(person.id) === selectedStaffId} className={`vb-booking-choice${String(person.id) === selectedStaffId ? ' is-selected' : ''}`} key={person.id} onClick={() => { setSelectedStaffId(String(person.id)); setActiveStep('datetime') }} role="option" type="button">
+                        <span className="vb-booking-choice__copy"><strong>{person.name || `Ресурс #${person.id}`}</strong><small>{person.specialization || 'Доступный ресурс'}</small></span>
+                        <span aria-hidden="true" className="vb-booking-choice__check">{String(person.id) === selectedStaffId ? '✓' : ''}</span>
+                      </button>) : <p className="vb-booking-choice-list__empty">Ничего не найдено. Попробуйте другой запрос.</p>}
+                    </div>
+                    <div className="vb-booking-picker-toolbar"><span>Специалисты {staffPage + 1} / {staffPageCount}</span><div className="vb-booking-picker-nav"><button disabled={staffPage === 0} onClick={() => setStaffPage((page) => Math.max(0, page - 1))} type="button">Назад</button><button disabled={staffPage >= staffPageCount - 1} onClick={() => setStaffPage((page) => Math.min(staffPageCount - 1, page + 1))} type="button">Дальше</button></div></div>
+                  </div>}
+
+                  {activeStep === 'datetime' && <div className="vb-booking-step__panel" id="booking-step-datetime">
+                    <div className="vb-booking-step__heading"><strong>Выберите дату и время</strong><span>Шаг 3 из 3</span></div>
+                    {!hasCheckedAvailability ? <>
                       <div className="vb-booking-date-picker"><div className="vb-booking-picker-toolbar"><span className="vb-booking-date-picker__label">Дата</span><span>{datePage + 1} / {datePageCount}</span></div><div aria-label="Доступные даты" className="vb-booking-date-list" role="listbox">
                         {visibleDatePage.map((date) => <button aria-selected={date === selectedDate} className={`vb-booking-date${date === selectedDate ? ' is-selected' : ''}`} key={date} onClick={() => setSelectedDate(date)} role="option" type="button">{formatDate(date)}</button>)}
                       </div><div className="vb-booking-picker-nav"><button aria-label="Предыдущие даты" disabled={datePage === 0} onClick={() => setDatePage((page) => Math.max(0, page - 1))} type="button">Назад</button><button aria-label="Следующие даты" disabled={datePage >= datePageCount - 1} onClick={() => setDatePage((page) => Math.min(datePageCount - 1, page + 1))} type="button">Дальше</button></div></div>
-                      <button className="vb-button vb-booking-form__submit" disabled={slotsLoading || !selectedDate || !selectedServiceId || !selectedStaffId} onClick={loadSlots} type="button">{slotsLoading && <span aria-hidden="true" className="vb-booking-spinner vb-booking-spinner--button" />}{slotsLoading ? 'Проверяем…' : 'Показать свободное время'}</button>
+                      <button className="vb-button vb-booking-form__submit" disabled={slotsLoading || !selectedDate} onClick={loadSlots} type="button">{slotsLoading && <span aria-hidden="true" className="vb-booking-spinner vb-booking-spinner--button" />}{slotsLoading ? 'Проверяем…' : 'Показать свободное время'}</button>
+                    </> : <>
+                      <div className="vb-booking-date-summary"><span>Выбранная дата</span><strong>{formatDate(selectedDate)}</strong><button onClick={() => { setHasCheckedAvailability(false); setSlots([]); setSelectedSlot('') }} type="button">Изменить дату</button></div>
+                      {slotsLoading && <div className="vb-booking-dialog__loading-state" role="status"><span aria-hidden="true" className="vb-booking-spinner" /><span>Проверяем свободное время…</span></div>}
                       {slots.length > 0 && <div className="vb-booking-form__slots" aria-label="Свободное время">
                         <div className="vb-booking-form__slots-heading"><p>Свободное время</p><span>{slotPage + 1} / {slotPageCount}</span></div>
                         <div>{visibleSlotPage.map((slot, index) => { const value = slot.datetime || slot.time || String(index); return <button aria-pressed={selectedSlot === value} className={selectedSlot === value ? 'is-selected' : ''} key={value} onClick={() => setSelectedSlot(value)} type="button">{slot.time || slot.datetime}</button> })}</div>
-                        <div className="vb-booking-picker-nav"><button aria-label="Предыдущие варианты времени" disabled={slotPage === 0} onClick={() => setSlotPage((page) => Math.max(0, page - 1))} type="button">Назад</button><button aria-label="Следующие варианты времени" disabled={slotPage >= slotPageCount - 1} onClick={() => setSlotPage((page) => Math.min(slotPageCount - 1, page + 1))} type="button">Дальше</button></div>
+                        <div className="vb-booking-picker-nav"><button aria-label="Предыдущие варианты времени" disabled={slotPage === 0} onClick={() => setSlotPage((page) => Math.max(0, page - 1))} type="button">Назад</button><button aria-label="Следующие варианты времени" disabled={slotPage >= slotPageCount - 1} onClick={() => setSlotPage((page) => Math.min(page + 1, slotPageCount - 1))} type="button">Дальше</button></div>
                       </div>}
-                      {selectedSlot && <p className="vb-booking-form__demo-note" role="status">Демо-режим: слот выбран, запись не создаётся.</p>}
-                      {hasCheckedAvailability && !slotsLoading && slots.length === 0 && <p className="vb-booking-form__hint">На выбранные параметры свободного времени нет.</p>}
-                    </div>}
+                      {!slotsLoading && hasCheckedAvailability && slots.length === 0 && <p className="vb-booking-form__hint">На выбранные параметры свободного времени нет.</p>}
+                    </>}
+                  </div>}
+
+                  <div className="vb-booking-step-actions">
+                    <button className="vb-booking-step-actions__back" disabled={activeStep === 'service'} onClick={goToPreviousStep} type="button">Назад</button>
+                    {activeStep !== 'datetime' && <button className="vb-button" disabled={activeStep === 'service' ? !selectedServiceId : !selectedStaffId} onClick={goToNextStep} type="button">Дальше</button>}
                   </div>
                 </div>
               )}

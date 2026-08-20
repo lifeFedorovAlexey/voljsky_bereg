@@ -15,6 +15,7 @@ type YclientsResponse<T> = {
 }
 
 const API_BASE_URL = 'https://api.yclients.com'
+const YCLIENTS_CONFIGURATION_ERROR = 'Booking service configuration is unavailable.'
 
 export async function getYclientsRuntime(): Promise<{
   demo: boolean
@@ -39,7 +40,7 @@ export async function getYclientsRuntime(): Promise<{
     throw new Error('В админке не указан реальный company_id YCLIENTS.')
   }
   if (!process.env.YCLIENTS_PARTNER_TOKEN || !process.env.YCLIENTS_USER_TOKEN) {
-    throw new Error('Server-side YCLIENTS credentials не настроены в .env.')
+    throw new Error(YCLIENTS_CONFIGURATION_ERROR)
   }
 
   return { companyId, demo, settings }
@@ -50,7 +51,7 @@ export async function yclientsGet<T>(path: string): Promise<T> {
   const userToken = process.env.YCLIENTS_USER_TOKEN
 
   if (!partnerToken || !userToken) {
-    throw new Error('Server-side YCLIENTS credentials не настроены в .env.')
+    throw new Error(YCLIENTS_CONFIGURATION_ERROR)
   }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {

@@ -82,9 +82,18 @@ export async function POST(): Promise<Response> {
       where: { slug: { equals: page.slug } },
     })
 
-    if (!existing.docs.length) {
-      const pageData = resolveMedia(page, media) as RequiredDataFromCollectionSlug<'pages'>
+    const pageData = resolveMedia(page, media) as RequiredDataFromCollectionSlug<'pages'>
 
+    if (existing.docs.length) {
+      await payload.update({
+        collection: 'pages',
+        id: existing.docs[0].id,
+        data: {
+          ...pageData,
+          _status: 'published',
+        },
+      })
+    } else {
       await payload.create({
         collection: 'pages',
         data: {

@@ -23,7 +23,23 @@ export const RenderBlocks: React.FC<{
           const nextBlock = blocks[index + 1]
           const previousBlock = blocks[index - 1]
 
+          if (blockType === 'faq' && nextBlock?.blockType === 'booking' && !isUnavailableBooking(nextBlock)) {
+            const Faq = blockRenderers.faq
+            const Booking = blockRenderers.booking
+
+            return (
+              <div className="vb-faq-booking" key={index}>
+                <Faq {...block} disableInnerContainer />
+                <Booking {...nextBlock} disableInnerContainer />
+              </div>
+            )
+          }
+
           if (blockType === 'booking' && previousBlock?.blockType === 'contacts' && isUnavailableBooking(block)) {
+            return null
+          }
+
+          if (blockType === 'booking' && previousBlock?.blockType === 'faq' && !isUnavailableBooking(block)) {
             return null
           }
 

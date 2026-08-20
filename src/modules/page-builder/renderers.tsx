@@ -211,31 +211,37 @@ const StaysRenderer: Renderer = (block) => (
 
         return (
           <article className={`vb-card vb-card--${hasMedia ? 'media' : 'feature'} vb-stays-card`} key={item.id || index}>
-            <Image alt={String(item.name || item.title || '')} resource={item.image} />
-            <h3>{item.name || item.title}</h3>
-            {(item.summary || item.text) && <p>{item.summary || item.text}</p>}
-            {(Number.isFinite(Number(item.capacity)) || features.length > 0) && (
-              <div className="vb-stays-card__facts">
-                {Number.isFinite(Number(item.capacity)) && <span>До {Number(item.capacity)} гостей</span>}
-                {features.length > 0 && (
-                  <ul className="vb-stays-card__features">
-                    {features.map((feature, featureIndex) => (
-                      <li key={feature.id || featureIndex}>{feature.text?.trim()}</li>
-                    ))}
-                  </ul>
-                )}
+            {hasMedia && (
+              <div className="vb-stays-card__media">
+                <Image alt={String(item.name || item.title || '')} resource={item.image} />
               </div>
             )}
-            {item.price && <strong>{item.price}</strong>}
-            {item.bookingUrl && (
-              <Link
-                className="vb-button vb-button--small vb-stays-card__action"
-                href={item.bookingUrl}
-                target={/^https?:\/\//.test(item.bookingUrl) ? '_blank' : undefined}
-              >
-                Узнать даты
-              </Link>
-            )}
+            <div className="vb-stays-card__body">
+              <h3>{item.name || item.title}</h3>
+              {(item.summary || item.text) && <p>{item.summary || item.text}</p>}
+              {(Number.isFinite(Number(item.capacity)) || features.length > 0) && (
+                <div className="vb-stays-card__facts">
+                  {Number.isFinite(Number(item.capacity)) && <span>До {Number(item.capacity)} гостей</span>}
+                  {features.length > 0 && (
+                    <ul className="vb-stays-card__features">
+                      {features.map((feature, featureIndex) => (
+                        <li key={feature.id || featureIndex}>{feature.text?.trim()}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+              <div className="vb-stays-card__footer">
+                {item.price && <strong>{item.price}</strong>}
+                <Link
+                  className="vb-button vb-button--small vb-stays-card__action"
+                  href={item.bookingUrl || '#booking'}
+                  target={item.bookingUrl && /^https?:\/\//.test(item.bookingUrl) ? '_blank' : undefined}
+                >
+                  Узнать даты
+                </Link>
+              </div>
+            </div>
           </article>
         )
       })}
@@ -434,12 +440,12 @@ const BookingRenderer: Renderer = (block) => {
 
   return (
     <Section
-      block={nativeFlow ? { ...block, description: 'Свободные даты и время загружаются через серверную интеграцию YCLIENTS.' } : block}
+      block={nativeFlow ? { ...block, description: null, eyebrow: null } : block}
       className="vb-section--booking"
     >
       <YclientsBookingDialog
         buttonLabel={block.buttonLabel || 'Забронировать'}
-        description={block.description || 'Даты и доступность открываются в форме YCLIENTS.'}
+        description={nativeFlow ? '' : block.description || ''}
         href={href}
         nativeFlow={nativeFlow}
         title={block.title || 'Выберите удобное время отдыха'}

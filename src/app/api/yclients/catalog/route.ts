@@ -35,9 +35,11 @@ type BookingDates = {
   working_days?: Record<string, string[]>
 }
 
-const jsonError = (error: unknown) =>
+const PUBLIC_BOOKING_ERROR = 'Сейчас онлайн-запись недоступна. Позвоните нам, и мы поможем выбрать дату.'
+
+const jsonError = () =>
   Response.json(
-    { error: error instanceof Error ? error.message : 'Не удалось получить данные YCLIENTS.' },
+    { error: PUBLIC_BOOKING_ERROR },
     { status: 503 },
   )
 
@@ -91,7 +93,7 @@ export async function GET(request: NextRequest) {
         specialization,
       })),
     })
-  } catch (error) {
-    return jsonError(error)
+  } catch {
+    return jsonError()
   }
 }

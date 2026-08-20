@@ -32,6 +32,29 @@
           "blockType": "contacts"
         },
         {
+          "anchor": null,
+          "theme": "light",
+          "eyebrow": null,
+          "title": "Что говорят гости",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "avatar": null,
+              "author": "Анна и Михаил",
+              "text": "Редкий случай, когда фотографии не передают всей тишины и красоты места.",
+              "rating": 5
+            },
+            {
+              "avatar": null,
+              "author": "Семья Орловых",
+              "text": "Детям было чем заняться, а взрослым наконец удалось выдохнуть.",
+              "rating": 5
+            }
+          ],
+          "blockType": "testimonials"
+        },
+        {
           "anchor": "booking",
           "theme": "sand",
           "eyebrow": "Онлайн-запись",
@@ -156,6 +179,60 @@
           "anchor": null,
           "theme": "sand",
           "eyebrow": null,
+          "title": "Главное здесь — ощущение места",
+          "description": "Архитектура не спорит с ландшафтом, маршруты ведут к воде, а сервис остаётся внимательным и ненавязчивым.",
+          "image": "@media:ienevoEntrance",
+          "imagePosition": "right",
+          "body": null,
+          "blockName": null,
+          "buttons": [],
+          "blockType": "splitContent"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
+          "title": "Ориентиры на территории",
+          "description": null,
+          "blockName": null,
+          "items": [
+            {
+              "image": null,
+              "icon": "⚓",
+              "title": "Берег",
+              "text": "Спуск к воде и прогулочная линия."
+            },
+            {
+              "image": null,
+              "icon": "♨",
+              "title": "Банная зона",
+              "text": "Отдельное пространство для отдыха."
+            },
+            {
+              "image": null,
+              "icon": "☕",
+              "title": "Общая гостиная",
+              "text": "Место встреч и неспешных завтраков."
+            }
+          ],
+          "blockType": "featureGrid"
+        },
+        {
+          "anchor": "location",
+          "theme": "light",
+          "eyebrow": "Как добраться",
+          "title": "Иенево. Берег на карте",
+          "description": "Точная точка расположения объекта на берегу Волги.",
+          "latitude": 56.818252,
+          "longitude": 36.005132,
+          "address": "Иенево, берег Волги",
+          "blockName": null,
+          "blockType": "locationMap"
+        },
+        {
+          "anchor": null,
+          "theme": "sand",
+          "eyebrow": null,
           "title": "Соберём программу под вашу поездку",
           "description": "Расскажите, кто едет и сколько у вас времени — предложим подходящий ритм отдыха.",
           "image": null,
@@ -163,7 +240,8 @@
           "buttons": [
             {
               "label": "Связаться",
-              "newTab": null
+              "newTab": null,
+              "url": "/contacts"
             }
           ],
           "blockType": "promo"
@@ -364,11 +442,13 @@
           "buttons": [
             {
               "label": "Выбрать размещение",
-              "newTab": null
+              "newTab": null,
+              "url": "/stays"
             },
             {
-              "label": "Посмотреть территорию",
-              "newTab": null
+              "label": "Посмотреть отдых",
+              "newTab": null,
+              "url": "/activities"
             }
           ],
           "blockType": "siteHero"
@@ -466,6 +546,7 @@
         "link": {
           "type": "custom",
           "newTab": null,
+          "url": "/stays",
           "label": "Размещение"
         }
       },
@@ -473,13 +554,7 @@
         "link": {
           "type": "custom",
           "newTab": null,
-          "label": "Территория"
-        }
-      },
-      {
-        "link": {
-          "type": "custom",
-          "newTab": null,
+          "url": "/activities",
           "label": "Отдых"
         }
       },
@@ -487,13 +562,7 @@
         "link": {
           "type": "custom",
           "newTab": null,
-          "label": "О нас"
-        }
-      },
-      {
-        "link": {
-          "type": "custom",
-          "newTab": null,
+          "url": "/contacts",
           "label": "Контакты"
         }
       }
@@ -505,6 +574,7 @@
         "link": {
           "type": "custom",
           "newTab": null,
+          "url": "/stays",
           "label": "Размещение"
         }
       },
@@ -512,13 +582,15 @@
         "link": {
           "type": "custom",
           "newTab": null,
-          "label": "Территория"
+          "url": "/activities",
+          "label": "Отдых"
         }
       },
       {
         "link": {
           "type": "custom",
           "newTab": null,
+          "url": "/contacts",
           "label": "Контакты"
         }
       }

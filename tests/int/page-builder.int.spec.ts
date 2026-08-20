@@ -3,6 +3,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import { HeaderNav } from '@/Header/Nav'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { pageBuilderBlocks, pageBuilderBlockSlugs } from '@/modules/page-builder/blocks'
 import { blockRenderers } from '@/modules/page-builder/renderers'
 
@@ -132,7 +133,8 @@ describe('page builder catalogue', () => {
     expect(bookingConfiguredMarkup).toContain('aria-haspopup="dialog"')
     expect(bookingConfiguredMarkup).toContain('class="vb-booking-dialog"')
     expect(bookingConfiguredMarkup).toContain('Закрыть')
-    expect(bookingConfiguredMarkup).toContain('Даты и доступность открываются в форме YCLIENTS.')
+    expect(bookingConfiguredMarkup).not.toContain('Свободные даты и время загружаются через серверную интеграцию YCLIENTS.')
+    expect(bookingConfiguredMarkup).not.toContain('Даты и доступность открываются в форме YCLIENTS.')
     expect(bookingConfiguredMarkup).toContain('href="https://n2494653.yclients.com/"')
     expect(bookingConfiguredMarkup).toContain('Открыть онлайн-запись')
     expect(planWithoutVerifiedDataMarkup).toBe('')
@@ -142,6 +144,22 @@ describe('page builder catalogue', () => {
     expect(locationMapMarkup).toContain('56.818252, 36.005132')
     expect(locationMapMarkup).toContain('Открыть точку на карте')
     expect(invalidLocationMapMarkup).toBe('')
+  })
+
+  it('keeps adjacent FAQ and booking blocks in one compact public composition', () => {
+    const markup = renderToStaticMarkup(
+      createElement(RenderBlocks, {
+        blocks: [
+          { blockType: 'faq', items: [{ answer: 'Ответ', question: 'Вопрос' }], title: 'Перед поездкой' },
+          { blockType: 'booking', title: 'Выберите время', yclientsUrl: 'https://n2494653.yclients.com' },
+        ],
+      } as never),
+    )
+
+    expect(markup).toContain('vb-faq-booking')
+    expect(markup.match(/vb-section--faq/g)).toHaveLength(1)
+    expect(markup.match(/vb-section--booking/g)).toHaveLength(1)
+    expect(markup).not.toContain('Свободные даты и время загружаются через серверную интеграцию YCLIENTS.')
   })
 
   it('renders confirmed stay facts instead of leaving the catalogue sparse', () => {
@@ -162,10 +180,13 @@ describe('page builder catalogue', () => {
     )
 
     expect(markup).toContain('vb-stays-card')
+    expect(markup).toContain('vb-stays-card__body')
+    expect(markup).toContain('vb-stays-card__footer')
     expect(markup).toContain('До 6 гостей')
     expect(markup).toContain('2 спальни')
     expect(markup).toContain('Кухня')
     expect(markup).toContain('от 12 000 ₽ / ночь')
+    expect(markup).toContain('href="#booking"')
   })
 
   it('renders complete desktop and mobile navigation trees', () => {

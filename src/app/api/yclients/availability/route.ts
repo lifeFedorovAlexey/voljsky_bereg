@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server'
 
 import { getYclientsRuntime, yclientsGet } from '@/modules/booking/yclientsServer'
 
+const PUBLIC_BOOKING_ERROR = 'Сейчас онлайн-запись недоступна. Позвоните нам, и мы поможем выбрать дату.'
+
 type Slot = {
   datetime?: string
   seance_length?: number
@@ -17,10 +19,10 @@ export async function GET(request: NextRequest) {
     const staffId = params.get('staffId') || '0'
 
     if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-      return Response.json({ error: 'Нужна дата в формате YYYY-MM-DD.' }, { status: 400 })
+      return Response.json({ error: 'Не удалось проверить выбранную дату.' }, { status: 400 })
     }
     if (!/^\d+$/.test(staffId) || (serviceId && !/^\d+$/.test(serviceId))) {
-      return Response.json({ error: 'ID сотрудника/ресурса и услуги должны быть числами.' }, { status: 400 })
+      return Response.json({ error: 'Не удалось проверить параметры записи.' }, { status: 400 })
     }
 
     const query = new URLSearchParams()
@@ -33,10 +35,7 @@ export async function GET(request: NextRequest) {
       date,
       slots: (data || []).map(({ datetime, seance_length, time }) => ({ datetime, seanceLength: seance_length, time })),
     })
-  } catch (error) {
-    return Response.json(
-      { error: error instanceof Error ? error.message : 'Не удалось получить слоты YCLIENTS.' },
-      { status: 503 },
-    )
+  } catch {
+    return Response.json({ error: PUBLIC_BOOKING_ERROR }, { status: 503 })
   }
 }
