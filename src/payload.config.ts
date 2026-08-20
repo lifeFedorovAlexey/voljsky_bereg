@@ -83,7 +83,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL,
     },
-    push: process.env.PAYLOAD_DB_PUSH === 'true',
+    push: process.env.NODE_ENV !== 'production' || process.env.PAYLOAD_DB_PUSH === 'true',
   }),
   collections: [
     Pages,
