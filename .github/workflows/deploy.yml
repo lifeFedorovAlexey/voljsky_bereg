@@ -122,8 +122,8 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          BOOTSTRAP_USER: root
         run: |
-          ssh -p "${DEPLOY_PORT:-22}" "${DEPLOY_USER}@${DEPLOY_HOST}" \
+          ssh -p "${DEPLOY_PORT:-22}" "${BOOTSTRAP_USER}@${DEPLOY_HOST}" \
             "test -L /opt/voljsky-bereg/current/public/media && \
              test \"\$(readlink -f /opt/voljsky-bereg/current/public/media)\" = /opt/voljsky-bereg/shared/media"
